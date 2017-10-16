@@ -1,6 +1,6 @@
-## Welcome to GitHub Pages
+## ROS Quality Hub
+ROS Quality Hub is an online community hub that will provide a focal point and resources to foster greater quality related activity and bring the community together to improve the quality and quality practices within ROS and RIS-Industrial communities.
 
-You can use the [editor on GitHub](https://github.com/rosin-project/quality-hub/edit/gh-pages/README.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
