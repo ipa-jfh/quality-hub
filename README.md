@@ -207,14 +207,17 @@ Re-using a publicly available Continuous Integration infrastructure significantl
 Within the ROS and ROS-Industrial communities several ready-to-use CI setups are provided. An overview is given on the [Continuous Integration](http://wiki.ros.org/CIs) page on the ROS wiki.
 
 _**ROS Buildfarm**_
+
 The ROS buildfarm can be configured to run CI for user repositories. This includes both CI for every change committed to a repository (called Development Tests) as well as CI for specific Pull Requests (Pull Request testing, only GitHub supported right now).
 
 Configuring development tests for a repository is documented in [REP-143](http://docs.ros.org/independent/api/rep/html/rep-0143.html#distribution-file). In order to add pull request testing, refer to the [buildfarm/Pull request testing](http://wiki.ros.org/buildfarm/Pull request testing) page on the ROS wiki.
 
 _**Travis CI**_
+
 In all cases, the Travis CI service needs to be enabled for the repositories that should be tested. The [Travis Documentation](https://docs.travis-ci.com/user/getting-started) shows how this can be done. After this, testing setup can either be done manually, or by using the industrial_ci package provided by the ROS-Industrial project.
 
 _**Vanilla Travis**_
+
 Again, consult the [Travis Documentation](https://docs.travis-ci.com/user/getting-started) for how to create the CI configuration. This includes the tools used, software that needs to be present in order to build the software and run the test, combinations of OS and versions of the software to test.
 
 In order to test ROS and ROS-Industrial packages, additional configuration is required, including adding the ROS package repositories, installing ROS, creating a workspace, configuring the workspace, resolving and installing all dependencies of the packages under test, building the workspace and finally running tests and gathering the results.
@@ -222,6 +225,7 @@ In order to test ROS and ROS-Industrial packages, additional configuration is re
 There is no official documentation in ROS on how to do this, but [felixduvallet/ros-travis-integration](https://github.com/felixduvallet/ros-travis-integration) is one example repository that shows how this may be done.
 
 _**With industrial_ci**_
+
 To exploit the fact that many ROS packages are tested in similar ways, and thus the fact that the configuration of the repositories that host them is also similar, the ROS-Industrial project has made the [industrial_ci](https://github.com/ros-industrial/industrial_ci) package available. In cases where the template configuration that it provides can be reused, this greatly simplifies Travis setup for a particular repository.
 
 The [Quick Start](https://github.com/ros-industrial/industrial_ci#quick-start) documentation lists the necessary steps. More complicated setups (such as those needing special build or test dependencies) are covered in the [detailed documentation](https://github.com/ros-industrial/industrial_ci/blob/master/doc/index.rst).
@@ -231,11 +235,11 @@ The [Quick Start](https://github.com/ros-industrial/industrial_ci#quick-start) d
 
 [REP-141](http://www.ros.org/reps/rep-0141.html)
 
-[Indexing Your ROS Repository for Documentation Generation](http://wiki.ros.org/rosdistro/Tutorials/Indexing Your ROS Repository for Documentation Generation) 
+[Indexing Your ROS Repository for Documentation Generation](http://http://wiki.ros.org/rosdistro/Tutorials/Indexing%20Your%20ROS%20Repository%20for%20Documentation%20Generation)
 
 [ROS wiki: CIs](http://wiki.ros.org/CIs)
 
-[ROS wiki: buildfarm/Pull request testing](http://wiki.ros.org/buildfarm/Pull request testing)
+[ROS wiki: buildfarm/Pull request testing](http://http://wiki.ros.org/buildfarm/Pull%20request%20testing)
 
 [ROS wiki: regression_tests/Development Tests](http://wiki.ros.org/regression_tests#Development_Tests)
 
