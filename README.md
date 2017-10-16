@@ -142,11 +142,11 @@ Accepting the contribution
 Pull requests should only be accepted and merged if the above checks have all been completed and the review has been performed by at least two maintainers.
 
 #### Links
-http://wiki.ros.org/Industrial/Tutorials/IndustrialPullRequestReview
+[Industrial Pull Requuest Review](http://wiki.ros.org/Industrial/Tutorials/IndustrialPullRequestReview)
 
-http://wiki.ros.org/MaintenanceGuide
+[Maintenance Guide](http://wiki.ros.org/MaintenanceGuide)
 
-http://moveit.ros.org/documentation/contributing/pullrequests 
+[Moveit Pull Request](http://moveit.ros.org/documentation/contributing/pullrequests)
 
 #### Consequences
 Policies and standards for reviewing pull requests must be made available to maintainers.
