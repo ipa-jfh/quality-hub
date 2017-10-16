@@ -77,8 +77,8 @@ It becomes possible to add more Q&A tooling to the buildfarm to more easily enfo
 #### Known Uses
 Many open-source systems have assigned the responsibility for the quality of core modules to so called maintainers, among them the Linux project: https://github.com/torvalds/linux/blob/master/MAINTAINERS
 #### Related patterns
-Continuous Integration Testing
-Test automation.
+* Continuous Integration Testing
+* Test automation.
 
 ### Pattern 2: Accept a pull request
 #### Name
@@ -167,13 +167,10 @@ The ROS-Industrial community also has a similar policy for reviewing contributio
 Another example is the maintainers policy of the MoveIt community.
 
 #### Related patterns
-Standards and Patterns (Driver Developer)
-
-Submit a patch (Component Developer)
-
-Submitting patches to core packages through maintainers
-
-CI with public infrastructure (App. Developer)
+* Standards and Patterns (Driver Developer)
+* Submit a patch (Component Developer)
+* Submitting patches to core packages through maintainers
+* CI with public infrastructure (App. Developer)
 
 ### Pattern 3: Continuous integration with the public infrastructure
 #### Name
@@ -253,15 +250,11 @@ Maintainers and developers will need to guard against a false sense of security:
 Everyone, not just the developer or maintainer, has access to build and test results for registered public repositories.
 
 #### Related patterns
-Continuous Integration with private repositories
-
-Integrate tests in catkin
-
-Pre-release Testing
-
-Regression Testing
-
-Submitting patches to core packages through maintainers
+* Continuous Integration with private repositories
+* Integrate tests in catkin
+* Pre-release Testing
+* Regression Testing
+* Submitting patches to core packages through maintainers
 
 ### Pattern 4: Regression test (Unit test)
 #### Name
@@ -353,24 +346,82 @@ Many open-source systems are using regression testing, and regression testing ha
 https://community.kde.org/Guidelines_and_HOWTOs/UnitTests. Both projects use CMake as their build manager, which is a similarity they share with ROS.
 
 #### Related patterns
-Continuous Integration Testing
-Submit a patch
-Integrate tests in catkin
+* Continuous Integration Testing
+* Submit a patch
+* Integrate tests in catkin
 
 ### Pattern 5: Integrating tests in the build (catkin)
 #### Name
+Integrate tests in catkin
+
 #### Context
+A robot application is not only developed but the software is subject to change either as part of the development process or as part of later maintenance and evolution. Thus, crucial behavior of the software can get affected and in worst case fail or yield wrong outputs. 
+
 #### Problem
+In many cases this error will not arise right away and at the time that a developer or an user comes across this bug it will be difficult to track down its source. Even if the developer defined certain tests for the software, it is likely that they are not executed on a regular basis.
+
+#### Example
+A team develops for example a library for path planning of a robot. One of the developer wants to clean up the code and decides to use matrixes calculations instead of simple equations. However, he mismatches two entries of a matrix, or forgets a minus at some position. Afterwards, he pushes his changes to the common repository of the library and moves on to his next task. 
+
 #### Forces
-**Controlled development**
-**Striving for quality**
-**Guarding development (policies)**
+_**Strive for quality**_
+
+In order to courage other parties to work with the provided software, it should meet preparations to sustain a flawless code.
+
+_**Fail fast**_
+
+Development becomes much more expensive if bugs are not detected at an early stage.
 
 #### Solution
+The whole application needs to be tested regularly to catch these regressions. Thus, one has to define explicit tests for the crucial behaviour of the program. Common methods for this purpose are unit tests and rostests (an extension to roslaunch, which enables testing across multiple nodes).
+
+In order to run tests for a package globally they can be defined in the build system of ROS named catkin. Afterwards, the catkin tools offer to run all tests of the ROS workspace either at once or individually. This makes it more convenient to run tests on a regularly basis. Furthermore, they can be integrated into Continuous Integration to run the tests for example for every push to the Github repository.
+
+#### Preparations
+The how to documentation of catkin describes the steps of integrating tests extensively. First of all, it recommends to configuration all steps related to testing conditionally. In this way larger data files, that might for example be required for Replay testing, do not need to be downloaded if the user does not intend to do testing.
+
+The document further covers the integration of the following types of tests: 
+* Configuring gtest for C++
+* Configuring Python nose tests
+* Configuring rostest
+
+#### Execution
+One can either run all test at once with the command 
+
+$ catkin_make run_tests 
+
+or an individual test (here of type gtest) for the package example package by 
+
+$ catkin_make run_tests_examplepackage_gtest_exampletest 
+
+Some further information can be found in [1, Running unit tests].
+
+#### Stakeholders
+* The developers of the package
+* The community members
+
+#### Tools involved
+* atkin
+* gtest (cpp)
+* nose (Python)
+* rostest 
+
+#### Example resolved
+In the mentioned scenario of the library for path planning, it is useful to have a test that verifies that the mechanics of the kinematic functions remain flawless. This can be achieved by defining a test that inputs an arbitrary (but reachable) cartesian goal position into the inverse kinematic to calculate the required robot’s joint states and subsequently, input this values to the forward kinematic to again get a pose in cartesian space. Finally, one can compare the original and the calculated pose to see if the functions are working correctly. The test will fail, if the difference is higher than a defined threshold, which is accounting numerical errors. If this test is include in catkin and the Continuous Integration system, it can be executed every time a developer pushes his patches to the library.
+
 #### Links
+[Configuring and running unit tests](http://docs.ros.org/kinetic/api/catkin/html/howto/format2/index.html)
+[Conceptual overview of catkin](http://wiki.ros.org/catkin/conceptual_overview)
+[Rostest](http://wiki.ros.org/rostest)
+
 #### Consequences
-#### Known Uses
+There is an initial effort to develop a suitable set of test cases for the application and as best practice a Continuous Integration is required to run the test on a regular basis.
+
 #### Related patterns
+* Continuous Integration with the public infrastructure
+* Continuous Integration with private repositories
+* Regression Testing (unit tests)
+* Replay testing
 
 ## Driver Development
 ### Pattern 1: Submit a pull request
