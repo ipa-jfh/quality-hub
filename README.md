@@ -4,6 +4,8 @@ ROS Quality Hub is an online community hub that will provide a focal point and r
 # Patterns
 In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. It is a description or template for how to solve a problem that can be used in many different situations. We used this concept to document ROS quality issues and the proposed solutions for these issues.
 
+The patterns are presented based on the three modes of ROS development 1) Core Development, 2) Driver and Reusable Packages Development, 3) Application Development. Each development requires different measures for quality assurance and face a different set of challenges.
+
 ## Core Development
 
 ### Pattern 1: Submit a pull request
@@ -79,9 +81,77 @@ Continuous Integration Testing
 Test automation.
 
 ### Pattern 2: Accept a pull request
+#### Name
+#### Context
+#### Problem
+#### Forces
+**Controlled development**
+**Striving for quality**
+**Guarding development (policies)**
+
+#### Solution
+#### Links
+#### Consequences
+#### Known Uses
+#### Related patterns
+
 ### Pattern 3: Continuous integration with the public infrastructure
+#### Name
+#### Context
+#### Problem
+#### Forces
+**Controlled development**
+**Striving for quality**
+**Guarding development (policies)**
+
+#### Solution
+#### Links
+#### Consequences
+#### Known Uses
+#### Related patterns
+#### Name
+#### Context
+#### Problem
+#### Forces
+**Controlled development**
+**Striving for quality**
+**Guarding development (policies)**
+
+#### Solution
+#### Links
+#### Consequences
+#### Known Uses
+#### Related patterns
+
 ### Pattern 4: Regression test (Unit test)
+#### Name
+#### Context
+#### Problem
+#### Forces
+**Controlled development**
+**Striving for quality**
+**Guarding development (policies)**
+
+#### Solution
+#### Links
+#### Consequences
+#### Known Uses
+#### Related patterns
+
 ### Pattern 5: Integrating tests in the build (catkin)
+#### Name
+#### Context
+#### Problem
+#### Forces
+**Controlled development**
+**Striving for quality**
+**Guarding development (policies)**
+
+#### Solution
+#### Links
+#### Consequences
+#### Known Uses
+#### Related patterns
 
 ## Driver Development
 ### Pattern 1: Submit a pull request
