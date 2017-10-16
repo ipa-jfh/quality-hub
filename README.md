@@ -411,7 +411,9 @@ In the mentioned scenario of the library for path planning, it is useful to have
 
 #### Links
 [Configuring and running unit tests](http://docs.ros.org/kinetic/api/catkin/html/howto/format2/index.html)
+
 [Conceptual overview of catkin](http://wiki.ros.org/catkin/conceptual_overview)
+
 [Rostest](http://wiki.ros.org/rostest)
 
 #### Consequences
