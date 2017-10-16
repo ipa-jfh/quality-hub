@@ -82,18 +82,85 @@ Test automation.
 
 ### Pattern 2: Accept a pull request
 #### Name
+Accepting a Pull Request 
+
 #### Context
+A user has identified an issue in a package, diagnosed it, wrote a fix and now submits a pull request. The maintainers of the package want to merge the contribution, but they need to make sure that that happens in a controlled and predictable manner.
+
 #### Problem
+Merging in of any (external) contribution presents a risk: specific bugs may be fixed or functionality enhanced, but at the same time new bugs may be introduced or repositories may diverge architecturally.
+Following predefined procedures can help, as they reduce the chances of making mistakes during the review process, but which aspects of pull requests need to be checked, and how can maintainers cooperate during the review?
+
 #### Forces
 **Controlled development**
+Well-defined processes for contribution will increase the probability of avoiding messing up the main code base. Which for example otherwise could result in components that are difficult to understand and use. This could be prevented by checking that any used code conventions and styles are followed.
+
 **Striving for quality**
+Everybody and especially maintainers are interested in maintaining the quality of core packages, as the introduction of new bugs or regressions or reducing maintainability will affect all current and future users of ROS. (Perceived) usability and stability have a direct influence on the reputation of ROS – especially in industrial settings where quality of the core packages is often considered paramount. 
+
 **Guarding development (policies)**
+ROS development is governed by a number of policies. One example is that development always targets the latest release, with patches being backported to older and long term stability (LTS) releases whenever this is considered desirable or required. Another example would be maintaining portability of code in order to remain platform independent as much as possible. Not every newcomer is aware of these policies.
 
 #### Solution
+The following is an example workflow for reviewing pull requests.
+
+General, high-level checks
+
+1. Make sure the PR does not introduce regressions:
+   1. If a CI infrastructure is available: check its status
+   1. Otherwise run tests manually / locally: this could include human-in-the-loop tests if necessary (fi when testing requires significant human-machine interfacing)
+1. Check proposed changes for adherence to conventions:
+   1. ROS REPs: as far as applicable
+   1.  code style: automated if available (clang-format) or manually
+   1.  naming conventions (packages, nodes, topics, services, actions, coordinate frames, etc)
+   1. /package specific conventions
+   1. /architectural: would acceptance of the changes cause the overall design of the package to significantly diverge from its current structure (both static and dynamic)?
+
+If the pull request is a bug fix:
+1.	Check that either a new test is included or that an existing one is extended or adapted that proves that the issue is fixed
+
+If the pull request introduces new functionality:
+1.	Check that a test is included that covers the new functionality
+
+Detailed checks
+If the pull request is a bug fix:
+1.	Do the proposed changes actually fix the reported issue?
+1.	Is the fix generic enough, or does it only work for the submitter?
+1.	Does the fix not conflict with other uses of the code (ie: those that might not be immediately apparent to the submitter)?
+1.	Is there a less invasive, more efficient, easier or more maintainable solution that would be an equivalent fix?
+
+If the pull request introduces new functionality:
+1.	 Is the proposed functionality actually a new feature?
+1.	 Does the proposed functionality do what is claimed?
+1.	 Is the new feature generic enough, or does it only address a use-case of the contributor?
+1.	 Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
+
+Accepting the contribution
+Pull requests should only be accepted and merged if the above checks have all been completed and the review has been performed by at least two maintainers.
+
 #### Links
+http://wiki.ros.org/Industrial/Tutorials/IndustrialPullRequestReview
+http://wiki.ros.org/MaintenanceGuide
+http://moveit.ros.org/documentation/contributing/pullrequests 
+
 #### Consequences
+Policies and standards for reviewing pull requests must be made available to maintainers.
+Maintainers must be aware of the policies regarding pull request review.
+All pull requests will have been reviewed by at least two maintainers.
+The repository must have been setup to run CI on pull requests.
+Contributions must be accompanied by sufficient rationale as to why they are to be included (and as to why the change introduced).
+
 #### Known Uses
+All pull requests against ROS repositories maintained by the OSRF use a similar - albeit implicit - review policy.
+The ROS-Industrial community also has a similar policy for reviewing contributions.
+Another example is the maintainers policy of the MoveIt community.
+
 #### Related patterns
+Standards and Patterns (Driver Developer)
+Submit a patch (Component Developer)
+Submitting patches to core packages through maintainers
+CI with public infrastructure (App. Developer)
+Best Practices
 
 ### Pattern 3: Continuous integration with the public infrastructure
 #### Name
