@@ -1,17 +1,13 @@
 ## ROS Quality Hub
 ROS Quality Hub is an online community hub that will provide a focal point and resources to foster greater quality related activity and bring the community together to improve the quality and quality practices within ROS and RIS-Industrial communities.
 
+### Patterns
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. It is a description or template for how to solve a problem that can be used in many different situations. We used this concept to document ROS quality issues and the proposed solutions for these issues.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
+# Core Development
+# Driver Development
+# Application Development
 ## Header 2
 ### Header 3
 
