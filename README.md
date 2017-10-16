@@ -93,12 +93,15 @@ Following predefined procedures can help, as they reduce the chances of making m
 
 #### Forces
 **Controlled development**
+
 Well-defined processes for contribution will increase the probability of avoiding messing up the main code base. Which for example otherwise could result in components that are difficult to understand and use. This could be prevented by checking that any used code conventions and styles are followed.
 
 **Striving for quality**
+
 Everybody and especially maintainers are interested in maintaining the quality of core packages, as the introduction of new bugs or regressions or reducing maintainability will affect all current and future users of ROS. (Perceived) usability and stability have a direct influence on the reputation of ROS – especially in industrial settings where quality of the core packages is often considered paramount. 
 
 **Guarding development (policies)**
+
 ROS development is governed by a number of policies. One example is that development always targets the latest release, with patches being backported to older and long term stability (LTS) releases whenever this is considered desirable or required. Another example would be maintaining portability of code in order to remain platform independent as much as possible. Not every newcomer is aware of these policies.
 
 #### Solution
@@ -140,27 +143,36 @@ Pull requests should only be accepted and merged if the above checks have all be
 
 #### Links
 http://wiki.ros.org/Industrial/Tutorials/IndustrialPullRequestReview
+
 http://wiki.ros.org/MaintenanceGuide
 http://moveit.ros.org/documentation/contributing/pullrequests 
 
 #### Consequences
 Policies and standards for reviewing pull requests must be made available to maintainers.
+
 Maintainers must be aware of the policies regarding pull request review.
+
 All pull requests will have been reviewed by at least two maintainers.
+
 The repository must have been setup to run CI on pull requests.
+
 Contributions must be accompanied by sufficient rationale as to why they are to be included (and as to why the change introduced).
 
 #### Known Uses
 All pull requests against ROS repositories maintained by the OSRF use a similar - albeit implicit - review policy.
+
 The ROS-Industrial community also has a similar policy for reviewing contributions.
+
 Another example is the maintainers policy of the MoveIt community.
 
 #### Related patterns
 Standards and Patterns (Driver Developer)
+
 Submit a patch (Component Developer)
+
 Submitting patches to core packages through maintainers
+
 CI with public infrastructure (App. Developer)
-Best Practices
 
 ### Pattern 3: Continuous integration with the public infrastructure
 #### Name
