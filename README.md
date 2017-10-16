@@ -16,23 +16,23 @@ An application developer discovers a bug in a core ROS package (e.g. roscpp), co
 #### Problem
 How to ensure quality of the proposed changes to the core – and of the software as a whole after integration of those changes – and at the same time encourage newcomers and members of the ROS community to participate in the development?
 #### Forces
-**Striving for quality**
+_**Striving for quality**_
 
 Everybody and especially maintainers are interested in maintaining the quality of core packages, as the introduction of new bugs or regressions or reducing maintainability will affect all current and future users of ROS. (Perceived) usability and stability have a direct influence on the reputation of ROS – especially in industrial settings where quality of the core packages is often considered paramount.
 
-**Guarding development (policies)**
+_**Guarding development (policies)**_
 
 ROS development is governed by a number of policies. One example is that development always targets the latest release, with patches being backported to older and long term stability (LTS) releases whenever this is considered desirable or required. Another example would be maintaining portability of code in order to remain platform independent as much as possible. Not every newcomer is aware of these policies.
 
-**Involve community members in development**
+_**Involve community members in development**_
 
 As every Open-Source Software project, ROS lives through the enthusiasm of its community members. But this also requires that community members can participate in the development, learn about the design and code structure and can earn merits in order to take on more responsibility in future. Contributing to core packages is an important step in the onboarding of new community members.
 
-**Educate community members**
+_**Educate community members**_
 
 To successfully contribute, newcomers need to learn how to write high quality software in-line with ROS’ best practices. These principles can best be taught based on actual development rather than only publishing them on the wiki and expecting newcomers to read, understand and apply them before writing and submitting their patch.
 
-**Maintaining efficiency**
+_**Maintaining efficiency**_
 
 Blocking contributions from being merged into the main code base for too long can be detrimental, both to the engagement of the submitter, as well as to the chances that they will get merged (as a patch may have been written for an older version of the software, increasing the effort required to make it compatible with the current state). As such, Pull Request reviews and iterations should be efficient, with minor (cosmetic) issues not holding up the process.
 
@@ -92,15 +92,15 @@ Merging in of any (external) contribution presents a risk: specific bugs may be 
 Following predefined procedures can help, as they reduce the chances of making mistakes during the review process, but which aspects of pull requests need to be checked, and how can maintainers cooperate during the review?
 
 #### Forces
-**Controlled development**
+_**Controlled development**_
 
 Well-defined processes for contribution will increase the probability of avoiding messing up the main code base. Which for example otherwise could result in components that are difficult to understand and use. This could be prevented by checking that any used code conventions and styles are followed.
 
-**Striving for quality**
+_**Striving for quality**_
 
 Everybody and especially maintainers are interested in maintaining the quality of core packages, as the introduction of new bugs or regressions or reducing maintainability will affect all current and future users of ROS. (Perceived) usability and stability have a direct influence on the reputation of ROS – especially in industrial settings where quality of the core packages is often considered paramount. 
 
-**Guarding development (policies)**
+_**Guarding development (policies)**_
 
 ROS development is governed by a number of policies. One example is that development always targets the latest release, with patches being backported to older and long term stability (LTS) releases whenever this is considered desirable or required. Another example would be maintaining portability of code in order to remain platform independent as much as possible. Not every newcomer is aware of these policies.
 
@@ -190,13 +190,13 @@ Setting up Continuous Integration for a code repository can be daunting, as not 
 And in order for results to be viewable by all collaborators, a shared infrastructure will be needed, which further increases setup and maintenance overhead.
 
 #### Forces
-**Producing Quality Code**
+_**Producing Quality Code**_
 Developing quality code is a process that can be facilitated by the use of the appropriate tools. CI is one of such tools, and a cornerstone in quality assurance procedures, providing automated ways of ensuring reproducibility, regressions tests, deployability and so on.
 
-**Striving for quality**
+_**Striving for quality**_
 Everybody and especially maintainers are interested in maintaining the quality of (core) packages, as the introduction of new bugs or regressions or reducing maintainability will affect all current and future users of ROS. (Perceived) usability and stability have a direct influence on the reputation of software – especially in industrial settings where quality of packages is often considered paramount. 
 
-**Increasing Trust**
+_**Increasing Trust**_
 The use of Continuous Integration to continuously test and analyse software components and guard them against regressions increases trust in those components: a high coverage (and growing) test suite with a long history of succeeding tests are a good indication of the quality of the software.
 
 Testing also increases trust and confidence of developers, as such continuous testing functions as a 'safety net' or 'canary' that warns developers whenever changes to be introduced would cause regressions and / or unintended side-effects.
