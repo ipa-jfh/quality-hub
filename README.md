@@ -145,6 +145,7 @@ Pull requests should only be accepted and merged if the above checks have all be
 http://wiki.ros.org/Industrial/Tutorials/IndustrialPullRequestReview
 
 http://wiki.ros.org/MaintenanceGuide
+
 http://moveit.ros.org/documentation/contributing/pullrequests 
 
 #### Consequences
@@ -188,19 +189,7 @@ CI with public infrastructure (App. Developer)
 #### Consequences
 #### Known Uses
 #### Related patterns
-#### Name
-#### Context
-#### Problem
-#### Forces
-**Controlled development**
-**Striving for quality**
-**Guarding development (policies)**
 
-#### Solution
-#### Links
-#### Consequences
-#### Known Uses
-#### Related patterns
 
 ### Pattern 4: Regression test (Unit test)
 #### Name
