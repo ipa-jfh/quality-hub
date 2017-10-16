@@ -6,7 +6,7 @@ In software engineering, a design pattern is a general repeatable solution to 
 
 ## Core Development
 ### Pattern 1: Submit a pull request
-[Pattern 1: Submit a pull request](https://github.com/rosin-project/quality-hub/gh-pages/Pattern1.md)
+[Pattern 1: Submit a pull request](https://rosin-project.github.io/quality-hub)
 ### Pattern 2: Accept a pull request
 ### Pattern 3: Continuous integration with the public infrastructure
 ### Pattern 4: Regression test (Unit test)
