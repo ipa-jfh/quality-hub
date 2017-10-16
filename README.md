@@ -114,10 +114,10 @@ General, high-level checks
    1. Otherwise run tests manually / locally: this could include human-in-the-loop tests if necessary (fi when testing requires significant human-machine interfacing)
 1. Check proposed changes for adherence to conventions:
    1. ROS REPs: as far as applicable
-   1.  code style: automated if available (clang-format) or manually
-   1.  naming conventions (packages, nodes, topics, services, actions, coordinate frames, etc)
-   1. /package specific conventions
-   1. /architectural: would acceptance of the changes cause the overall design of the package to significantly diverge from its current structure (both static and dynamic)?
+   1. code style: automated if available (clang-format) or manually
+   1. naming conventions (packages, nodes, topics, services, actions, coordinate frames, etc)
+   1. Repository/package specific conventions
+   1. Design/architectural: would acceptance of the changes cause the overall design of the package to significantly diverge from its current structure (both static and dynamic)?
 
 If the pull request is a bug fix:
 1.	Check that either a new test is included or that an existing one is extended or adapted that proves that the issue is fixed
@@ -265,18 +265,97 @@ Submitting patches to core packages through maintainers
 
 ### Pattern 4: Regression test (Unit test)
 #### Name
+Regression Testing
 #### Context
+A developer fixes a bug in a core ROS package (e.g. roscpp), corrects it and tests the patch on his own computer. The developer wants the bug not to be reintroduced later.  The pattern is beneficial for component and application developers as well, but it is mostly used by core developers (core components are easier to test, and it is more important to test them). Any ROS project (including application and component process) that decide to use continuous integration, should seriously consider also using regression testing.
+
 #### Problem
+The problem is that often bugs are (re-)introduced by developers not knowing the context sufficiently well, and bugs keep returning the project (they are known as regression bugs), because the rationale for a certain decision in code is forgotten.  The problem is to prevent future developers from reintroducing the bug.
+
 #### Forces
-**Controlled development**
-**Striving for quality**
-**Guarding development (policies)**
+_**Avoiding Reintroduction of Problems**_
+
+Using tests for past bugs influences quality in the long term. It is a well accepted practice in many open-source projects.   Writing regressions tests, you contribute to long term quality of the ROS ecosystem.  You enable maintenance of code, and better automated discovery of inconsistencies.
+
+_**Documenting Design and Requirements**_
+
+Regression tests document your coding decisions, and communicate to other developers automatically about their violation.  Thus tests become documentation for your code.
+
+_**Enable Others to Contribute to ROS**_
+
+It is very difficult for new external developers to contribute to your components.  When they make changes to code, they are often doing it in the blind, driven by a lot of guesswork.  By providing a harness of regression tests, you help them in the task.  They get immediate feedback for their changes.  It becomes easier to contribute to a project.
+
+_**Amplifying Value of Continuous Integration**_
+
+Regression tests, along with normal scenario-based requirements tests contribute to overall body of automated tests for your component.  This increases effectiveness of the build system and of continuous integration (CI).  Your component is better tested against evolution of other APIs that it depends on (CI servers will tell you better and more precisely what problems develop in your code).
+
+_**Development Cost**_
+
+Regression testing comes at a cost: you need to develop a test, which sometimes may be difficult or costly.  Sometimes it might also be nontrivial, as the test should be automatic.
+
+_**Maintenace Cost**_
+
+Regression tests need to be maintained. When the design of the component changes, a lot of tests become invalidated (for instance no longer compile, or throw runtime exceptions related to the API design).  These tests fail not only because the redesign re-introduced bugs but also because they need to be updated to the new design.   Occasionally, with bigger redesigns, old regression tests should be dropped.
 
 #### Solution
+In order to avoid a bug to be reintroduced, you should write a test that fails if the bug is reintroduced.  Often this test is best to be written before the bug is fixed.  Once you understood the bug, write a small unit tests that exhibits the problem (fails).  Then see this failure go away, once the bug is fixed.  
+
+It is best to write this test at the lowest possible level, where the problem is exhibited.  If the problem is local in a library function, it is beneficial to write the test at the API level of this library.  If the problem involves communication on a ros-topic, it is probably best written at the ROS node level.  The reason for this is two-fold. First, lower-level tests are more efficient, involving less ROS infrastructure, and thus more efficient to execute.  Fast execution of tests is beneficial both offline (on your machine) and in continuous integration.  Second, lower-level tests localize the problem better, so when they fail, it is easier for new developers to diagnose what is going on.
+
+The ROS project provides several standard processes and solutions for regression testing. It also (at least formally) requires unit tests for code review.  Regression tests are suitable unit tests for bug fixes.
+
+#### Stakeholders
+A **Submitter** is the programmer willing to submit a bug fix to a ROS repository of a package.
+
+A **Maintainer** is the programmer taking care of the package.
+
+A **Code Reviewer** is another ROS developer who together with the maintainer will be reviewing the code (very often, for simpler packages, or for less formalized projects this is the same person as the maintainer).
+
+#### Tools involved
+For testing Python code at library level (at the Python API level) ROS projects should use Python’s unittest framework. See http://pythontesting.net/framework/unittest/unittest-introduction/. For testing C++ code at the library level (at the C++ API level) Google test framework gtest should be used. See https://github.com/google/googletest. For testing at the ROS node level, involving ROS as a communication middleware, rostest  is used together with unittest or gtest. See http://wiki.ros.org/rostest. This applies both to single node tests, and tests that require integrating several nodes (technically known as integration tests, not unit tests).
+
+It is key that the tests are not only automatic, but are integrated in the project scripts, so that they are run by the build and test infrastructure, whenever the project is being tested. To run the tests, you will need catkin/roslaunch integration (see the pattern Integrate tests in Catkin and http://wiki.ros.org/rostest/Writing ).  This may involve introducing a build dependency on rostest in package.xml and including a launcher for the test in the test file.
+
+Test nodes should be introduced using the <test> tag into launch files.  The rostest tool interprets these tags to start the nodes responsible for running node-level tests. (See http://wiki.ros.org/roslaunch/XML/test )
+Regarding the submission please refer to the pattern Submit a patch where git infrastructure for submission is discussed.
+
+#### Example
+[Fix race condition that lead to miss first message](https://github.com/ros/ros_comm/pull/1054) #1054. This particular example involves a Python unittest (without rostest).
+
+Example resolved:
+
+* Submitter identified problem in a core package (ros_comm/actionlib)
+* Wrote a patch and tested locally using the new regression test.  
+* In this particular case, another developer submitted a regression test exhibiting the problem
+* Submitted Pull Request against indigo-devel (second-to-last LTS). Importantly the pull request included both the test and the submission, so the both the fixing patch and the test are used to explain the problem (in the example this is a race due to wrong locking).
+* maintainer #1 identifies small issues with submitted patch, proposes fixes. In particular he requests that the regression test is incorporated into the patch.
+* Maintainer #2 reviews the new PR by maintainer #1 and waits for the Continuous Integration server to complete the testrun.
+* Eventually (on another branch, see https://github.com/ros/ros_comm/pull/1058 ) the fix for the problem is merged together with the test.  The test remains active for future modifications of locks in this package.
+
+Sometimes regression tests will involve large amounts of data (for instance ROS bags storing data from the failing execution). It is possible to make tests conditional, so that they are not called if this data is not available.  This allows the other developers on your package to avoid running expensive tests, if they don’t wish it.
+
 #### Links
+http://wiki.ros.org/UnitTesting 
+http://wiki.ros.org/unittest 
+http://wiki.ros.org/gtest 
+
 #### Consequences
+There must be at least one maintainer per core package (but preferably more). 
+
+Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
+
+It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
+
+Regression testing benefits community developers as well (not only maintainers, and not only core package developers).
+
 #### Known Uses
+Many open-source systems are using regression testing, and regression testing has been popularized a long time ago.  A good example of an open-source project with regression tests is WebKit: https://webkit.org/regression-testing/, a web-browser engine used by many applications, including by Apple’s Safari browser. Another project is KDE, a popular desktop manager for Unix-like systems:
+https://community.kde.org/Guidelines_and_HOWTOs/UnitTests. Both projects use CMake as their build manager, which is a similarity they share with ROS.
+
 #### Related patterns
+Continuous Integration Testing
+Submit a patch
+Integrate tests in catkin
 
 ### Pattern 5: Integrating tests in the build (catkin)
 #### Name
