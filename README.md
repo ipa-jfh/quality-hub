@@ -177,19 +177,87 @@ CI with public infrastructure (App. Developer)
 
 ### Pattern 3: Continuous integration with the public infrastructure
 #### Name
+CI with public infrastructure (App. Developer)
+
 #### Context
+Running tests should be automated, and should preferably be done after each change to the code. In addition, (proposed) changes should be checked to make sure they don't introduce new bugs or break already existing functionality. Such regression testing should also be automated and should ideally also be run after introduction of changes.
+
+Finally, development of ROS applications is often done in a collaborative or federated way, introducing the need to share test results and metrics between collaborators in an efficient way.
+
 #### Problem
+Setting up Continuous Integration for a code repository can be daunting, as not only does the CI service itself need to be configured correctly, but the repositories to be tested will need to be properly set up as well. Such configuration is in addition to the tests that need to also be present.
+
+And in order for results to be viewable by all collaborators, a shared infrastructure will be needed, which further increases setup and maintenance overhead.
+
 #### Forces
-**Controlled development**
+**Producing Quality Code**
+Developing quality code is a process that can be facilitated by the use of the appropriate tools. CI is one of such tools, and a cornerstone in quality assurance procedures, providing automated ways of ensuring reproducibility, regressions tests, deployability and so on.
+
 **Striving for quality**
-**Guarding development (policies)**
+Everybody and especially maintainers are interested in maintaining the quality of (core) packages, as the introduction of new bugs or regressions or reducing maintainability will affect all current and future users of ROS. (Perceived) usability and stability have a direct influence on the reputation of software – especially in industrial settings where quality of packages is often considered paramount. 
+
+**Increasing Trust**
+The use of Continuous Integration to continuously test and analyse software components and guard them against regressions increases trust in those components: a high coverage (and growing) test suite with a long history of succeeding tests are a good indication of the quality of the software.
+
+Testing also increases trust and confidence of developers, as such continuous testing functions as a 'safety net' or 'canary' that warns developers whenever changes to be introduced would cause regressions and / or unintended side-effects.
 
 #### Solution
-#### Links
-#### Consequences
-#### Known Uses
-#### Related patterns
+Re-using a publicly available Continuous Integration infrastructure significantly reduces the effort required to introduce unit and regression testing into a project. Hosting code on publicly accessible repositories further reduces the administrative burden, leaving just the configuration of the repositories to be tested.
 
+Within the ROS and ROS-Industrial communities several ready-to-use CI setups are provided. An overview is given on the [Continuous Integration](http://wiki.ros.org/CIs) page on the ROS wiki.
+
+_**ROS Buildfarm**_
+The ROS buildfarm can be configured to run CI for user repositories. This includes both CI for every change committed to a repository (called Development Tests) as well as CI for specific Pull Requests (Pull Request testing, only GitHub supported right now).
+
+Configuring development tests for a repository is documented in [REP-143](http://docs.ros.org/independent/api/rep/html/rep-0143.html#distribution-file). In order to add pull request testing, refer to the [buildfarm/Pull request testing](http://wiki.ros.org/buildfarm/Pull request testing) page on the ROS wiki.
+
+_**Travis CI**_
+In all cases, the Travis CI service needs to be enabled for the repositories that should be tested. The [Travis Documentation](https://docs.travis-ci.com/user/getting-started) shows how this can be done. After this, testing setup can either be done manually, or by using the industrial_ci package provided by the ROS-Industrial project.
+
+_**Vanilla Travis**_
+Again, consult the [Travis Documentation](https://docs.travis-ci.com/user/getting-started) for how to create the CI configuration. This includes the tools used, software that needs to be present in order to build the software and run the test, combinations of OS and versions of the software to test.
+
+In order to test ROS and ROS-Industrial packages, additional configuration is required, including adding the ROS package repositories, installing ROS, creating a workspace, configuring the workspace, resolving and installing all dependencies of the packages under test, building the workspace and finally running tests and gathering the results.
+
+There is no official documentation in ROS on how to do this, but [felixduvallet/ros-travis-integration](https://github.com/felixduvallet/ros-travis-integration) is one example repository that shows how this may be done.
+
+_**With industrial_ci**_
+To exploit the fact that many ROS packages are tested in similar ways, and thus the fact that the configuration of the repositories that host them is also similar, the ROS-Industrial project has made the [industrial_ci](https://github.com/ros-industrial/industrial_ci) package available. In cases where the template configuration that it provides can be reused, this greatly simplifies Travis setup for a particular repository.
+
+The [Quick Start](https://github.com/ros-industrial/industrial_ci#quick-start) documentation lists the necessary steps. More complicated setups (such as those needing special build or test dependencies) are covered in the [detailed documentation](https://github.com/ros-industrial/industrial_ci/blob/master/doc/index.rst).
+
+#### Links
+[REP-143](http://docs.ros.org/independent/api/rep/html/rep-0143.html)
+
+[REP-141](http://www.ros.org/reps/rep-0141.html)
+
+[Indexing Your ROS Repository for Documentation Generation](http://wiki.ros.org/rosdistro/Tutorials/Indexing Your ROS Repository for Documentation Generation) 
+
+[ROS wiki: CIs](http://wiki.ros.org/CIs)
+
+[ROS wiki: buildfarm/Pull request testing](http://wiki.ros.org/buildfarm/Pull request testing)
+
+[ROS wiki: regression_tests/Development Tests](http://wiki.ros.org/regression_tests#Development_Tests)
+
+#### Consequences
+Contributors will be notified of test results as soon as the CI service has completed running the tests.
+
+Developers will need to keep test suites up-to-date and meaningful: the CI service only automates running the tests, gathering the results and reporting on them. It does not create any tests itself. As tests are also code, this means increased maintenance for maintainers.
+
+Maintainers and developers will need to guard against a false sense of security: a 'green badge' from the CI service does not necessarily mean that all is ok. Low coverage from test suites may leave defects undiscovered.
+
+Everyone, not just the developer or maintainer, has access to build and test results for registered public repositories.
+
+#### Related patterns
+Continuous Integration with private repositories
+
+Integrate tests in catkin
+
+Pre-release Testing
+
+Regression Testing
+
+Submitting patches to core packages through maintainers
 
 ### Pattern 4: Regression test (Unit test)
 #### Name
