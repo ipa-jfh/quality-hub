@@ -67,7 +67,7 @@ List of core modules
 The list of packages which are considered part of the core are documented in [REP-142](http://www.ros.org/reps/rep-0142.html), sections ROS Core and ROS Base.
 #### Best practices
 * For developing ROS libraries and core components see the [ROS Developer's Guide](http://www.ros.org/DevloperGuid)
-* For maintaining and releasing ROS libraries and core components see the [ROS Maintenance Guide] (http://wiki.ros.org/MaintenanceGuid). 
+* For maintaining and releasing ROS libraries and core components see the [ROS Maintenance Guide](http://wiki.ros.org/MaintenanceGuid). 
 #### Consequences
 There must be at least one maintainer per core package (but preferably more). 
 Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
