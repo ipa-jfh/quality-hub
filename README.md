@@ -879,13 +879,72 @@ Link to Jenkins and industrial_ci: Quick manual; Section For developers
 
 ### Pattern 11: Replay testing
 #### Name
+Replay testing
 #### Context
+As for every software, it is required for applications that process data to have a continuously evaluation of patches, which are introduced by members of the developer team. Moreover, development is more efficient, if the application is constantly fed with test data, resembling the intended environment as close as possible. 
 #### Problem
+An application that processes data can only be tested sufficiently if it actually processes data. However, resource requirements are too high to repeat an event multiple times, because a real application requires designated hardware and a certain environment; a simulation requires high processing power and application dependencies. 
+#### Example
+An algorithm that processes laser scans for line detection, which is used as groundwork for localization, is developed. In order to test the code the team needs scanning data and thus, they have to reserve a scanning device, a mobile robot and require an appropriate experimental area.
 #### Forces
+_**Strive for quality**_
+
+In order to courage other parties to work with the provided software, it should meet preparations to sustain a flawless code.
+
+_**Fail fast**_
+
+Development becomes much more expensive if bugs are not detected at an early stage.
+
+_**Save resources**_
+
+Regression test using real hardware or simulation is too expensive.
+
 #### Solution
+The ROS-activities of either a real or a simulated event can be recorded to be later replayed.  In this way, one can efficiently develop and test applications that have to process data. For this purpose, ROS provides a tool named [rosbag](http://wiki.ros.org/rosbag). Most common is to work with the tool from command-line, which offers functionalities like for example record, play and info and are described comprehensively in tutorial and overview. Moreover, the plugin [rqt_bag](http://wiki.ros.org/ROS/Tutorials/Recording%20and%20playing%20back%20data) offers the option to use most of the commands from a GUI.
+
+It is worth to highlight the option to record only selected topics and the one to filter already existing bag-files. The later one is very powerful and one can for example also remove only a certain transformation between two frames from the /[tf topic](http://wiki.ros.org/rqt_bag).
+
+The bag file can be finally used for testing by referencing to it within a rostest-launch file. Furthermore, there is the possibility to conditionally for testing download bag-files from the web. This is useful if they are too large and thus, would overload the [source repository](http://docs.ros.org/jade/api/catkin/html/howto/format2/downloading_test_data.html).
+
+#### Procedure
+1. Define test scenario
+1. Define required data
+1. Record the data either from real hardware or simulation
+1. Implement the test with the recorded data
+1. Include test to Continuous Integration
+
 #### Stakeholders
+* The developers of the package
+* The community members
+#### Tools involved
+* rosbag
+* rqt_bag
+#### Example resolved
+In order to save resources the team runs the experiment of scanning an environment once and record the data. The laser is mounted on a mobile robot, which has a very precise localization. The team also record the transform (tf) of the robot’s pose relative to the starting position, since this information is valuable to evaluate the performance of their new scanning-based localization.
+
+For visualizing the robot, the team decides to publish a tf from the result of their novel algorithm, which estimates the robot’s pose relative to the starting origin. However, this transformation will conflict with the recorded tf, because they use the same frame names. In order to solve this issue, they filter only the conflicting tf of the recorded data and save it as a new file. Apart from that they keep all other transformations, since they still require the relative pose of the laser to the mobile robot.
+
+Furthermore, the team establish a rostest for Continuous Integration that makes use of the recorded data. It will run the novel algorithm on a particular subset of the data and finally, check if the estimated pose is within a certain threshold of an ideal value. 
+
 #### Links
+1. [rosbag](http://wiki.ros.org/rosbag)
+1. [rosbag tutorial](http://wiki.ros.org/ROS/Tutorials/Recording%20and%20playing%20back%20data)
+1. [Command-line functionalities](http://wiki.ros.org/rosbag/Commandline)
+1. [rqt_bag](http://wiki.ros.org/rqt_bag)
+1. [Remove a certain tf frame](http://answers.ros.org/question/56935/how-to-remove-a-tf-from-a-ros-bag/)
+1. [Download test data](http://docs.ros.org/jade/api/catkin/html/howto/format2/downloading_test_data.html)
+
+#### Consequences
+The developer team has to define certain scenarios to test their application and afterwards, perform them either in simulation or in real world to acquire required data.
+
+The recorded files will increase the source repository if the mentioned corrective action is not taken.
+Replay testing as such does not offer the possibility of a feedback loop. Influencing the test scenario, like e.g. making decisions on navigation, will make recorded data of the environment like e.g. laser scans unusable.
+
 #### Related patterns
+* Continuous Integration with the public infrastructure
+* Continuous Integration with private repositories
+* Regression Testing (unit tests)
+* Integrate tests in catkin
 
 ### Pattern 12: Model-in-the-Loop Testing with Specialized Simulator
 #### Name
