@@ -650,7 +650,7 @@ Several contexts can be envisioned here:
 * How to make sure that other developers can easily embed such development in other applications, but also contribute to its maintenance and evolution along time in a fluent way?
 
 #### Forces
-_**Strive for qualit**_
+_**Strive for quality**_
 
 By taking into consideration defined programming policies, guide styles and programming patterns, developers are taking on board the experiences collected by the Community along time for producing high quality code, in terms of readability, re-usability or extensibility among others.
 
@@ -805,9 +805,107 @@ Even though ROS2.0 is not yet deployed, such mechanism and philosophy is a good 
 ### Pattern 5: Integrating tests in the build (catkin)
 ### Pattern 9: Best Practices
 ### Pattern 10: Continuous Integration with private repositories
+#### Name
+Continuous Integration with private repositories
+#### Context
+An application developer wants to use a continuous integration service as part of his/her development process in order to parallel to the development check that the application can be integrated and deployed and allow for regression tests. The CI shall be run in a separate server, and run automatically builds and tests defined in the code.
+#### Problem
+There are several options available to use CI, as Travis or the ROS buildfarm. However Travis does not support privately hosted repositories (only GitHub at the moment), and setting up and running a private installation of buildfarm is overcomplicated.
+#### Forces
+_**Producing quality code**_
+
+Developing quality code is a process that can be facilitated by the use of the appropriate tools. CI is one of such tools, and a cornerstone in quality assurance procedures, providing automated ways of ensuring reproducibility, regressions tests, deployability and so on.
+
+_**Make ROS business friendly**_
+
+The use of ROS and ROS-I should be extended beyond the academic community, into industrial applications and industrial actors using and contributing to it. These actors usually have stricter IP sharing rules, and by giving them the proper tools such as CI, we facilitate their involvement into the ROS community.
+
+_**Facilitate the collaboration and contribution to the community**_
+
+Code contributed to the ROS repository is expected to comply with certain rules regarding its quality. By the use of CI as part of the development process, compliance with such requirements is facilitated, which fosters further contributions.
+
+#### Solution
+We provide instructions here on how to set up a system/process based on the use of Jenkins + industrial_ci + GitLab. The rationale to choose such a combination, instead of other available alternatives such as buildfarm, Travis and others is: 
+* support for private repositories and in-house installation 
+* based on open-source tools 
+* easy installation and setup time 
+* low threshold for usage, easy integration of new components into the process 
+* extensible 
+* GitLab is a well-known repository manager; however the instructions can be easily adapted and applied to other infrastructures
+
+_**Components of the solution**_
+
+_Jenkins_
+
+Jenkins is an open-source automation server written in Java, that runs in servlet containers such as Apache Tomcat. It is mainly targeting facilitating the automation of continuous integration aspects: it offers integration with many version control tools, such as CVS, Subversion, Git, or Mercurial (can be extended to others through the use of plugins), and offers different ways of triggering builds, such as commits in the control version system or scheduling with a cron-like mechanism.
+
+It also provides web-based reporting capabilities for the results of the builds (interface with the user is mainly web-based).
+
+Jenkins supports scalability through a "master/slave" mode, where the workload of building projects are delegated to multiple "slave" nodes, allowing a single Jenkins installation to host a large number of projects, or to provide different environments needed for builds/tests.
+
+Jenkins' functionality can also be extended by the addition of plugins.
+
+_industrial_ci_
+
+industrial_ci is a set of bash scripts that can be used to check that a ROS package builds and installs without issues. If unit or system tests are defined, it can also run them. In order to ensure reproducibility, the builds are run in empty Docker containers, in which the dependencies specified are installed.
+
+#### Stakeholders
+Installer / SysAdmin
+
+Link to Jenkins and industrial_ci: Quick manual; Section For installer / administration
+
+ROS application developer
+
+Link to Jenkins and industrial_ci: Quick manual; Section For developers
+
+#### Links
+* industrial_ci: [ROS wiki](http://wiki.ros.org/industrial_ci); [GitHub repository](https://github.com/ros-industrial/industrial_ci)
+* [industrial_ci documentation](https://github.com/ros-industrial/industrial_ci/blob/master/doc/index.rst)
+* [Jenkins](https://jenkins.io/)
+* [Jenkins plugins](https://plugins.jenkins.io/)
+* [rosdep](http://wiki.ros.org/ROS/Tutorials/rosdep)
+* [REP 126](http://www.ros.org/reps/rep-0126.html)
+* [rosinstall file format](http://docs.ros.org/independent/api/rosinstall/html/rosinstall_file_format.html)
+* The ROS build farm - what it can do for me [pdf](http://roscon.ros.org/2016/presentations/ROSCon2016 Build Farm.pdf); [video](https://vimeo.com/187705230)
+* buildfarm [web](http://wiki.ros.org/buildfarm) / [ros_buildfarm2](https://github.com/ros2/ros_buildfarm_config)
+* [ROS and CI](http://wiki.ros.org/CIs)
+
+#### Related patterns
+* Integrating tests in the build
+* MIL testing
+* Best Practices
+* Regression Testing
+* Pre-release testing
+
 ### Pattern 11: Replay testing
+#### Name
+#### Context
+#### Problem
+#### Forces
+#### Solution
+#### Stakeholders
+#### Links
+#### Related patterns
+
 ### Pattern 12: Model-in-the-Loop Testing with Specialized Simulator
+#### Name
+#### Context
+#### Problem
+#### Forces
+#### Solution
+#### Stakeholders
+#### Links
+#### Related patterns
+
 ### Pattern 13: Model-in-the-Loop Testing with Gazebo
+#### Name
+#### Context
+#### Problem
+#### Forces
+#### Solution
+#### Stakeholders
+#### Links
+#### Related patterns
 
 # Bugs Hunt Report
 
