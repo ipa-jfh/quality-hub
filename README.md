@@ -444,12 +444,15 @@ As part of the development, a model of general interest has been developed, e.g.
 If a package is provided in the form of source code to interested end-users, the installation can reveal difficulties, since the user has to take care of installing required dependencies by himself. Then again, it takes quite some effort to create an own independent Debian package. Such a package could be used by interested community members, however, people would have a hard time to search for it and they might be insecure of the quality of the software. One last point is that there are different Debian-based distribution as well as different computer architectures and thus, one has to build several Debian packages.
 #### Forces
 _**Strive for quality**_
+
 In order to encourage other parties to work with the provided software, it should meet preparations to ensure a proper compilation and installation. 
 
 _**Community reputation**_
+
 It is a feather in the hat to have authored and maintain an “official” ROS package, which is hosted in a central place.
 
 _**Community benefit**_
+
 The ROS community is an open-source community. The idea is to benefit from each others’ development and to share results.
 
 #### Solution
@@ -462,14 +465,17 @@ Moreover, if any build-dependency of the software is updated, the build farm wil
 In order to assure the quality of officially released packages, the process requires a certain procedure which is described in the following. Be aware that you have to release the package for every ROS distribution individually.
 
 _**0) Pre-release repository**_
+
 Best practice is to perform Pre-release testing to assure that dependencies are declared and installation commands are set-up in the correct way.
 
 _**1) Create a release repository**_
+
 One has to create a new Github repository, which should be named the same as the package but denoted as release. For now it stays empty for, but later the software’s source code will be copied into this location via the bloom tool. 
 
 Within this repository one can optional grant additional developer writing rights and thus to release patches.
 
 _**2) Configure the package's release track boom**_
+
 The package can now be released to the ROS build farm with bloom. Once you run the build automation tool, it will guide you through all necessary steps. It can be installed by the APT package python-bloom and started by the following command.
 
 $ bloom-release --rosdistro <ros_distro> --track <ros_distro> repository_name --edit
@@ -499,6 +505,7 @@ See [ROS: Releasing a package](http://wiki.ros.org/ROS/ReleasingAPackage) a more
 Subsequently, bloom will prepare your release repository and create a pull request for the distribution.yaml of the selected ROS distribution.
 
 _**3) Wait for ROS build farm**_
+
 “Once your pull request has been submitted then you will have to wait for one of the ROS developers to merge your request (this usually happens fairly quickly). Then after 24-48 hours your package should be built by the build farm and released into the building repository. Packages built are periodically synchronized over to the shadow-fixed and public repositories, so it might take some time (weeks) before your package has made it into the public ROS debian repositories.” 
 
 #### Stakeholders
@@ -512,7 +519,9 @@ _**3) Wait for ROS build farm**_
 
 #### Links
 [Bloom: First time release](http://wiki.ros.org/bloom/Tutorials/FirstTimeReleasefor)
+
 [ROS: Releasing a package](http://wiki.ros.org/ROS/ReleasingAPackage)
+
 [How to build and install target with catkin](http://docs.ros.org/kinetic/api/catkin/html/howto/format2/)
 
 #### Consequences
@@ -525,16 +534,56 @@ _**3) Wait for ROS build farm**_
 
 ### Pattern 7: Pre-Release Testing
 #### Name
+Pre-release Testing
 #### Context
-#### Problem
-#### Forces
-#### Solution
-#### Stakeholders
-#### Tools involved
-#### Links
-#### Consequences
-#### Related Patterns
+A developer wants to contribute a piece of code (a patch) to a ROS component that is tested using continuous integration (the build farm).  
 
+#### Problem
+The build farm will install the component in a clean environment, on standard distribution components, attempt to build it and run the tests.  This environment is typically quite different from the one that the developer used to code the component, that tends to include a lot of local customizations for convenience, legacy, for interaction with his other ROS projects, etc.  For this reason, the installation, the build, or the tests on the build farm will often fail.  To make it worse, it can take several hours before the developer will receive the information from the build farm. The information might come when he is already working on a different issue, and it requires an expensive context switch to fix the component and re-submit to the build farm (or another CI infrastructure).  The problem is thus to shorten the modify-test-debug loop, but involving the setup that is as close as possible to the continuous integration conditions.
+
+Another problem is being able to to run the tests, before the package release is made.  A package release, that causes tests to fail on the build farm is very problematic, because usually many other dependent packages will be affected, and their maintainers might be notified.  So failures of released packages in the build farm runs should be avoided. 
+
+Pre-release tests make sense to be run, even if there is no automated tests in the component.  The setup will still check for compilation issues (errors find by compilers) and installation issues.  These traditionally are a large fraction of issues in ROS components, so just building and installing the component on the build farm (and then also in a pre-release testing environment) can detect many problems.
+
+#### Forces
+_**Development Speed / Release Speed**_
+
+Pre-release testing allows to speed up testing, fixing, and releasing components, as one does not have to wait for the external build farm to report on test results. 
+
+#### Complexity
+Running pre-release tests is fairly complex, requires using docker components. However the process has been streamlined with external tools, and is still more efficient than relying on external CI servers.
+
+#### Solution
+The solution is to run pre-release tests, which are realized using the docker component technology and a set of scripts that mimic possibly closely the conditions of the external build farm, in a local docker environment.  Typically they will be able to detect the same problems as the build farm.
+
+Unlike the build farm tests, pre-release tests should be run manually. ROS streamlines running the pre-release testing process. You need to
+
+1. Install the prerequisites (mostly docker, the build farm scripts,  and catkin). See http://wiki.ros.org/regression_tests#How_do_I_setup_my_system_to_run_a_prerelease.3F 
+1. Use http://prerelease.ros.org/ to synthesize an invocation command for the pre-release testing of your component. This interface allows you to configure the set of components that should be available on the test system (you can also use non-standard release components, which is often needed in testing bleeding edge development).
+1. The synthesized command will be several lines long.  You just need to run it.
+
+#### Stakeholders
+A _**Submitter**_ is the programmer releasing the component.
+
+#### Tools involved
+Docker (for creating a virtual test environment), along with build farm scripts, and catkin usually installed (http://wiki.ros.org/regression_tests#Prerelease_Tests).  Of course, all other build and test dependencies will also be used.
+
+The online tool http://prerelease.ros.org helps you by synthesizing the run command for the configuration for your build.
+
+#### Links
+http://wiki.ros.org/regression_tests#Prerelease_Tests
+http://prerelease.ros.org 
+
+#### Consequences
+Your component needs to be packaged as a proper ROS package (with all the meta-data).
+
+A 64-bit machine is required to run docker.
+
+You can avoid/reduce build farm errors after release.
+
+#### Related Patterns
+* Continuous Integration Testing
+* Integrate tests in catkin
 ### Pattern 8: Model-in-the-loop (MIL) Testing with Specialized Robot Simulators
 #### Name
 #### Context
