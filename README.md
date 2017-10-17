@@ -1750,6 +1750,7 @@ The bag file can be finally used for testing by referencing to it within a roste
 * rosbag
 * rqt_bag
 #### Example resolved
+
 In order to save resources the team runs the experiment of scanning an environment once and record the data. The laser is mounted on a mobile robot, which has a very precise localization. The team also record the transform (tf) of the robot’s pose relative to the starting position, since this information is valuable to evaluate the performance of their new scanning-based localization.
 
 For visualizing the robot, the team decides to publish a tf from the result of their novel algorithm, which estimates the robot’s pose relative to the starting origin. However, this transformation will conflict with the recorded tf, because they use the same frame names. In order to solve this issue, they filter only the conflicting tf of the recorded data and save it as a new file. Apart from that they keep all other transformations, since they still require the relative pose of the laser to the mobile robot.
