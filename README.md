@@ -954,12 +954,15 @@ Developers wants to perform tests and verifications of how different kinds of co
 How to test and debug robot applications and drivers before running the software on a real robot that could both result in damage of the robot and damage of the environment including potentially human casualty. 
 #### Forces
 _**Rapid development**_
+
 MIL testing allows for performing tests relatively quickly. It is not necessary to have access to real equipment, which might be limited in number and availability. This can then for example be used to verify that component still work as intended after new updates as well as testing current components against new simulator versions.
 
 _**Quality**_
+
 Depending on the test cases one should decide on the expected behaviors before performing the tests. E.g. what should happen if there is communication failure (if such parts are simulated), what should happened if only partial user input is used or is the simulated robot following the specified path or trajectory. This will allow the developers to detect possible issues and achieve components with higher quality.
 
 _**Familiarization**_
+
 MIL testing can help beginners to get used to working with robot software without danger, before potentially starting to work with real robots.
 
 #### Solution
@@ -991,13 +994,60 @@ Limits: simulation is always ideal, does not always capture all the physical asp
 
 ### Pattern 13: Model-in-the-Loop Testing with Gazebo
 #### Name
+MIL Testing with Gazebo (not for drivers)
 #### Context
+When developing robotic applications, performing experiments in the real hardware (the robot) is expensive: usually it is a resource to be shared, running new code in a safe manner is challenging, setting the experimental setup requires quite some work, or it is difficult to debug. It is a good practice to use a model-in-the-loop approach to test new algorithms and tune parameters in a simulated robot and environment before testing on real hardware.
 #### Problem
+MIL testing can be adopted as part of the development process, but doing the tests and preparing the environment should not take much effort in order to be effective. The similarity between the results of a simulation and the outcome of the execution in real hardware is also a prerequisite.
 #### Forces
+_**Accelerate development**_
+
+The preparation of a proper real testing environment and running experiments in a real robot is quite time consuming. Artifacts related to real hardware also makes experiments difficult to reproduce and to debug. By the use of MIL testing the process can be accelerated.
+
+_**Safety**_
+
+New algorithms or modified parameters can pose safety issues for the integrity of the robot and the operators.
+
+_**Quality**_
+
+By facilitating the execution of experiments and the reproducibility, more exhaustive tests can be performed which result in more reliable and robust results.
+
 #### Solution
-#### Stakeholders
+The solution presented here is not an automatic process (which will be explored in a future pattern); it is not either suitable for testing new drivers, as in these cases the exact behavior and dynamics of the sensors or actuators tested can not be reliably reproduced.
+
+The solution presented here involves using a simulator, and we rely on Gazebo due to the excellent integration with ROS; a key element for the MIL process to be useful is that switching between the real hardware and the model does not require changes in the algorithmic aspects which are tested. Ideally the switching could be done just by rerouting the commands and sensor information flow.
+
+This is the process to run MIL tests using the Gazebo simulator:
+* Setup the simulation environment
+* The Gazebo Tutorials explain how to create a simulated environment where the tests will run.
+* An important step consists on generating the SDF files on which Gazebo relies instead of the URDF descriptions used in ROS. While URDF is the standardized way of representing a robot model in ROS, it can only specify the kinematic and dynamic properties of a single robot; the SDF format can hold additional information which is required to run the simulation.
+* Instead of create a robot model from scratch, Gazebo already provides a Gazebo Model Database of commercial robots available to be used.
+* Sensors can also be simulated in Gazebo, including their noise characteristics
+* In order for the ROS nodes/infrastructure to be able to communicate with the Gazebo simulator, the specific ROS plug-in has to be used.
+* Once the simulation is up and running and communicating with the ROS nodes, write tests that send goals, e.g. in case of a path planner, a client that produces goals poses and sends them to the appropriate server. A challenging aspects is that these tests should aim at covering all possible cases.
+* Run the tests and use the Gazebo GUI to check for the performance, e.g. no collisions or unwanted behaviors.
+* Use RViz to debug the robot system.
+Additionally:
+* In some cases, tests can be automated, e.g. in the path planner example, a client can be automatically checking for collisions, and after a certain timeout after sending the goal, check that the right pose is achieved. 
+* Gazebo is split into a server (where the simulation is run) and a client (the GUI). In case of automated tests, only the server part can be used to use resources in an appropriate manner. 
+*  There are some tools that allow this process to be run in a fully automated way and as part of a continuous process. For example, the Automated Test Framework ATF is a testing framework written for ROS which supports executing integration and system tests, running benchmarks and monitor the code behaviour over time. The ATF provides basic building blocks for easy integration of the tests into your application. Furthermore the ATF provides everything to automate the execution and analysis of tests as well as a graphical web-based frontend to visualize the results.
+
 #### Links
+* [Gazebo Tutorials](http://gazebosim.org/tutorials?cat=build_world)
+* [Gazebo Model Database](http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i3)
+* [Adding sensor noise in Gazebo](http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i3)
+* [ROS pluging](http://gazebosim.org/tutorials?cat=guided_i&tut=guided_i6)
+* [ATF](https://github.com/ipa-fmw/atf)
+* Paper: [Simulation Environment for Mobile Robots Testing Using ROS and Gazebo](http://vixra.org/pdf/1705.0414v1.pdf)
+
 #### Related patterns
+* Integrating tests in the build (catkin)
+* MIL testing using robot simulate
+* Replay testing without feedback loop (ros bags)
+* Continuous Integration
+* Best practices
+* MIL Testing with specialized simulator
+* Hardware in the loop testing with CI
 
 # Bugs Hunt Report
 
