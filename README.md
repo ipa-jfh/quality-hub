@@ -427,14 +427,137 @@ There is an initial effort to develop a suitable set of test cases for the appli
 
 ## Driver Development
 ### Pattern 1: Submit a pull request
+
+
 ### Pattern 2: Accept a pull request
+
+
 ### Pattern 3: Continuous integration with the public infrastructure
 ### Pattern 4: Regression test (Unit test)
 ### Pattern 5: Integrating tests in the build (catkin)
 ### Pattern 6: Release a reusable module
+#### Name
+Release a reusable module (e.g. a driver)
+#### Context
+As part of the development, a model of general interest has been developed, e.g. a driver for a specific camera, or a new path finder. The development team wants to make this module available for others in an easy manner. The community wants to have this software available, but also wants to assure that it is tested for the specified ROS distribution and optional provides documentation.
+#### Problem
+If a package is provided in the form of source code to interested end-users, the installation can reveal difficulties, since the user has to take care of installing required dependencies by himself. Then again, it takes quite some effort to create an own independent Debian package. Such a package could be used by interested community members, however, people would have a hard time to search for it and they might be insecure of the quality of the software. One last point is that there are different Debian-based distribution as well as different computer architectures and thus, one has to build several Debian packages.
+#### Forces
+_**Strive for quality**_
+In order to encourage other parties to work with the provided software, it should meet preparations to ensure a proper compilation and installation. 
+
+_**Community reputation**_
+It is a feather in the hat to have authored and maintain an “official” ROS package, which is hosted in a central place.
+
+_**Community benefit**_
+The ROS community is an open-source community. The idea is to benefit from each others’ development and to share results.
+
+#### Solution
+Releasing the reusable component to the ROS building repository makes it available to the public. Official ROS packages have an automatically created wiki page, which shows basic package information, the link to the source code and the status of continuous integration. In addition, one can increase the usability by filling the page with further documentation and tutorials. 
+
+Another very important benefit is that this process makes the software available as an pre-compiled Debian package for APT (Advanced Package Tool). This makes the managing of the package on Linux distributions very easy for an end-user, by providing functionalities as search, install, update and remove. The ROS build farm will automatically build binaries for different Debian-based distribution as well as different computer architectures. As an example the Ubuntu Xenial packages will be build for amd64, i386 and armhf. 
+
+Moreover, if any build-dependency of the software is updated, the build farm will automatically rebuild and check all of the package’s binaries.
+
+In order to assure the quality of officially released packages, the process requires a certain procedure which is described in the following. Be aware that you have to release the package for every ROS distribution individually.
+
+_**0) Pre-release repository**_
+Best practice is to perform Pre-release testing to assure that dependencies are declared and installation commands are set-up in the correct way.
+
+_**1) Create a release repository**_
+One has to create a new Github repository, which should be named the same as the package but denoted as release. For now it stays empty for, but later the software’s source code will be copied into this location via the bloom tool. 
+
+Within this repository one can optional grant additional developer writing rights and thus to release patches.
+
+_**2) Configure the package's release track boom**_
+The package can now be released to the ROS build farm with bloom. Once you run the build automation tool, it will guide you through all necessary steps. It can be installed by the APT package python-bloom and started by the following command.
+
+$ bloom-release --rosdistro <ros_distro> --track <ros_distro> repository_name --edit
+Explanation
+* <ros_distro>: This is the name of the ROS distribution, e.g. kinetic.
+* repository_name: This is the name of the new ROS package
+* --edit: This is important for a first time release to create a new track
+
+_What is a track?_
+“bloom is designed to allow the release of the same package for different ROS distributions and versions in the same release repository. To facilitate this, bloom uses release "tracks" to maintain configurations for different release processes.” 
+
+Steps to perform with bloom
+
+1. The tool will inform that the specified repository_name is not yet listed in the distribution file and ask for the link to the Github release repository.
+1. Specify a desired repository name.
+1. Insert the link to the package’s development/upstream (not release) repository, which contains the source file of the software.
+1. In the next step select the provided repository type. Available options are git, svn, hg or hosted tar.
+   1. Version can be left as default
+   1. Release Tag can be left as default
+1. Specify the right branch of the development/upstream repository.
+1. Specify the ROS Distribution
+   1. Rest can be left as default
+   1. Provide your Github credentials
+
+See [ROS: Releasing a package](http://wiki.ros.org/ROS/ReleasingAPackage) a more detailed overview and [Bloom: First time release](http://wiki.ros.org/bloom/Tutorials/FirstTimeReleasefor) for even more details on bloom.
+
+Subsequently, bloom will prepare your release repository and create a pull request for the distribution.yaml of the selected ROS distribution.
+
+_**3) Wait for ROS build farm**_
+“Once your pull request has been submitted then you will have to wait for one of the ROS developers to merge your request (this usually happens fairly quickly). Then after 24-48 hours your package should be built by the build farm and released into the building repository. Packages built are periodically synchronized over to the shadow-fixed and public repositories, so it might take some time (weeks) before your package has made it into the public ROS debian repositories.” 
+
+#### Stakeholders
+* The author of the package to be released
+* The community members
+
+#### Tools involved
+* Github
+* Bloom
+* Ros build farm
+
+#### Links
+[Bloom: First time release](http://wiki.ros.org/bloom/Tutorials/FirstTimeReleasefor)
+[ROS: Releasing a package](http://wiki.ros.org/ROS/ReleasingAPackage)
+[How to build and install target with catkin](http://docs.ros.org/kinetic/api/catkin/html/howto/format2/)
+
+#### Consequences
+* At least one developer must commit to be the maintainer of the released package.  
+* A member or the ROS team must review the pull requests for the distribution. yaml and the ROS build farm must periodically build packages from this yaml lists.
+
+#### Related Patterns
+* Continuous Integration with the public infrastructure
+* Pre-release testing
+
 ### Pattern 7: Pre-Release Testing
+#### Name
+#### Context
+#### Problem
+#### Forces
+#### Solution
+#### Stakeholders
+#### Tools involved
+#### Links
+#### Consequences
+#### Related Patterns
+
 ### Pattern 8: Model-in-the-loop (MIL) Testing with Specialized Robot Simulators
+#### Name
+#### Context
+#### Problem
+#### Forces
+#### Solution
+#### Stakeholders
+#### Tools involved
+#### Links
+#### Consequences
+#### Related Patterns
+
 ### Pattern 9: Best Practices
+#### Name
+#### Context
+#### Problem
+#### Forces
+#### Solution
+#### Stakeholders
+#### Tools involved
+#### Links
+#### Consequences
+#### Related Patterns
 
 ## Application Development
 ### Pattern 3: Continuous integration with the public infrastructure
