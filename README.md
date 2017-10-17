@@ -584,17 +584,56 @@ You can avoid/reduce build farm errors after release.
 #### Related Patterns
 * Continuous Integration Testing
 * Integrate tests in catkin
+
 ### Pattern 8: Model-in-the-loop (MIL) Testing with Specialized Robot Simulators
 #### Name
+Model-in-the-loop (MIL) Testing with Specialized Robot Simulators
+
 #### Context
+Developers wants to perform tests and verifications of how different kinds of components operate together with specialized robot simulators. The components could for example contain control algorithms or network communication. And the specialized robot simulators could for example come from ABB, Fanuc, Kuka etc.
+
 #### Problem
+How to test and debug robot applications and drivers before running the software on a real robot that could both result in damage of the robot and damage of the environment including potentially human casualty. 
+
 #### Forces
+_**Rapid development**_
+
+MIL testing allows for performing tests relatively quickly. It is not necessary to have access to real equipment, which might be limited in number and availability. This can then for example be used to verify that component still work as intended after new updates as well as testing current components against new simulator versions.
+
+#### Quality
+Depending on the test cases one should decide on the expected behaviors before performing the tests. E.g. what should happen if there is communication failure (if such parts are simulated), what should happened if only partial user input is used or is the simulated robot following the specified path or trajectory. This will allow the developers to detect possible issues and achieve components with higher quality.
+
+#### Familiarization
+MIL testing can help beginners to get used to working with robot software without danger, before potentially starting to work with real robots.
+
 #### Solution
-#### Stakeholders
-#### Tools involved
-#### Links
+If you have access to a simulator of the targeted robot, you can use it to test the software on a simulation model of the robot (Model-in-the-Loop testing). To be able to make the best assessments of the results, you need to familiarise yourself with the usage of the robot simulator system that is being used for the tests.
+
+Then the process for running the MIL tests could be:
+1. Set up the different test cases.
+   1. The focus of MIL tests is the (mal-)functioning of the software rather than the hardware. Test cases should contain both success scenarios and anticipatable error scenarios. The reaction of the software to changes in the environment the robot is operating in might be a subject of tests as well. 
+   1. Define suitable success criteria and how to measure them. What logs would you need in a malfunction situation to analyse the error? 
+   1. Prepare (program) the simulation setup including what data to log. Besides the model of the robot the test scenarios can contain specific arrangements of the environment.
+1. Run the tests. 
+   1. Deploy the software to the simulated robot and run the test scenarios.
+1. valuate the results. 
+   1. If the simulator has a visual interface, a first observation would be whether it shows the expected behavior. However, logs and the measurements for the success criteria should be analysed as well. 
+1. Report/fix any detected issues.
+   1. The error report needs to contain the information about the setup of the test, the measurements of the success criteria, and the log files.
+1. Rerun the tests if needed.
+
 #### Consequences
+By performing MIL testing continuously then it should be possible to achieve higher quality components.
+
+You need a simulator. The simulator has to allow to define, save and run test scenarios including variation of the environment the robot is operating in.
+
+The simulator used in the testing should have been validated before trusting the results. (If the simulator is from the robot manufacturer this should not be an issue.)
+
+If the success criteria can be evaluated algorithmically, MIL test can be part of a regression test set up.
+
+Limits: simulation is always ideal, does not always capture all the physical aspects (both of the robot and of the environment.
 #### Related Patterns
+* Regression Testing
 
 ### Pattern 9: Best Practices
 #### Name
