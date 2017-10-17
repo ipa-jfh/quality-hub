@@ -637,15 +637,167 @@ Limits: simulation is always ideal, does not always capture all the physical asp
 
 ### Pattern 9: Best Practices
 #### Name
+Best practices
+
 #### Context
+Several contexts can be envisioned here:
+* An application developer wants to develop components that could be used in other applications. The reuse could be done by him, his team or eventually external collaborator.
+* A team of Developers want to agree on programming policy to ease their collaborative work.
+* A Developer desires to produce code of quality by applying agreed best practices.
+
 #### Problem
+* How to develop a ROS code so that its reuse in other contexts is facilitated ?
+* How to make sure that other developers can easily embed such development in other applications, but also contribute to its maintenance and evolution along time in a fluent way?
+
 #### Forces
+_**Strive for qualit**_
+
+By taking into consideration defined programming policies, guide styles and programming patterns, developers are taking on board the experiences collected by the Community along time for producing high quality code, in terms of readability, re-usability or extensibility among others.
+
+Note that the community terms refers here not only to the ROS Developers, but also to the community conducting research on software quality.
+
+_**Increase the efficiency in developing new applications**_
+
+Even though the conception of applications through a collection of nodes is already a step towards the design of reusable code, a particular care has to be given to the communication interface for maximizing the reuse potentiality.
+
+In that line, a well-described node (including documentation), which interface focuses on the core functionalities provided, and designed to be less dependent to the current application it is being developed for, is more likely to be reused in other contexts.
+
+_**Facilitate the collaboration and community contribution**_
+
+By following and / or establishing coding and architecture policies, developers can reduce the subjectivity of their implementation, and ease the readability of their development.
+
+Such readability is necessary for facilitating the improvement and extension of the code by other Developers, for the benefit of all.
+
+Finally, and in line with the previous point, the quality of the node interface (in term of documentation and interaction means) is also crucial for maximizing its reuse by the community.
+
 #### Solution
-#### Stakeholders
-#### Tools involved
-#### Links
-#### Consequences
+_**Look for best practices**_
+
+Generally speaking, a key in developing code intended to be understood and reused by other Developers or Integrator is to reduce as much as possible the subjectivity in the implementation choices.
+
+Nevertheless all Developers do not have the same background and experience in software programing, robot programing or ROS. And even if they would have, there would still be a need for agreeing common practices for handling any problem.
+
+This is why it is a good practice (if not mandatory) to look for best practices during the development of any component or application.
+
+Unfortunately, there is not a unique place hosting all the good practices, and it still required to dive into several sources to find the relevant information we are looking for.
+
+The main sources of best practices are the following:
+* [ROS Wiki](http://ros.org/wiki)
+* [ROS Answers](http://answers.ros.org/questions/)
+* [ROS Discourse](https://discourse.ros.org/)
+* [ROS-users mailing list](http://lists.ros.org/pipermail/ros-users/)
+* ROSCon programs
+* Team or developer best practices
+
+The [ROS Wiki](http://ros.org/wiki) is a tremendous source of information, including for finding best practices. Yet, the page [ROS Best Practices](http://wiki.ros.org/BestPractices) provides useful pointers on best practices in ROS, as a set of “statements of how best to achieve common tasks with ROS”.
+
+It mentions the existence of the [ROS Enhancement Proposal(REP)](http://www.ros.org/reps/rep-0000.html) which can be used to register best practices. It lists existing best practices, and also mentions the open points that would deserve a best practice description.
+
+The wiki section on [ROS Use Patterns and Best Practices](http://wiki.ros.org/ROS/Patterns) also gathers best practices organized through abstract design patterns that are Conventions, Workspaces, Modularity, Communication, Parametrization, Logging and Robot Modeling.
+
+The wiki section [ROS developer´s guide](http://wiki.ros.org/DevelopersGuide) is a good starting point for getting used to the common practices for developing components to be shared with the community.
+
+Among other links, we can mention the pointers towards ROS Programming styles (for [C++](http://wiki.ros.org/CppStyleGuide), [python](http://wiki.ros.org/PyStyleGuide) and [javascript](http://wiki.ros.org/JavaScriptStyleGuide)), and the description of the [Quality Assurance Process](http://wiki.ros.org/QAProcess) to be followed by a package to be included into the ROS eco-system.
+
+Considering that the people are likely to have already considered a question we have, it is relevant having a look at the [ROS Answers](http://answers.ros.org/questions/) section of ROS. In particular, the tag best_practices can be looked for for getting answers related to best practices. See [here](http://answers.ros.org/questions/scope:all/sort:activity-desc/tags:best_practices/page:1/) the list of related questions.
+
+Note that [ROS Discourse](https://discourse.ros.org/) is intended to be the successor of [ROS Answers](http://answers.ros.org/questions/), and progressively this engine will replace the former one.
+
+Finally, bet practices can be searched as well through the information provided by individuals or Developer teams.
+
+Several presentations done at ROSCON ([2017](https://roscon.ros.org/2017/), [2016](http://roscon.ros.org/2016/) , [2015](http://roscon.ros.org/2015/)) provide good insights on best practices that could be used. Some developers groups give access to the best practices they gathered and follow, like:
+* The [Autonomous Systems Lab](https://github.com/ethz-asl/ros_best_practices/wiki) of ETH Zurich
+* The [Artificial Intelligence and Robotics Laboratory](http://airwiki.ws.dei.polimi.it/index.php/ROS_HOWTO) from Milano, which provides also a generic ROS node template that can help to define new nodes.
+
+_**Consider Automation tools**_
+
+Several high-level tools are existing for automating the creation of nodes and packages.
+
+The advantage of such automation tools is that it reduces the code production by using hidden code templates or skeleton.
+
+If the proposed templates fits the Developer needs, then the Developer can focus on the core added value of a component, and let the automation tool prepare the rest of the architecture.
+
+_**ROSLab**_
+
+[ROSLab](http://precise.github.io/ROSLab/) is a High-level Programming Language for Robotic Applications.
+
+The code is maintained by [the Precise Lab](https://github.com/PRECISE), but has not been updated since two years.
+
+Examples of use are available at [Nicola Bezzo´s website](http://www.seas.upenn.edu/~nicbezzo/ROSLab.html).
+
+ROSLab is a high-level programming language based on blocks and links dragged on a java workspace which generates the skeleton code for robotic applications involving different types of robots.
+
+Components can be connected though their communication interface.
+
+Once generated, the Developer can implement the core code, having all the package and node skeleton automatically created.
+The code generation is done using the [ROSGen](https://rtg.cis.upenn.edu/HACMS/report.pdf) component, which is implemented in Coq.
+
+ROSLab seem to be an interesting solution for roboticist Developers with limited knowledge in programming language and ROS, and want to quickly develop applications.
+
+_**ROSMOD**_
+
+[ROSMOD](http://www.isis.vanderbilt.edu/node/4744) is a work from the [Vanderbilt University](http://www.isis.vanderbilt.edu/node/4744).
+
+As it can be seen on the [github account](https://github.com/rosmod), the development is still active, and an online demo is available [here](https://rosmod.rcps.isis.vanderbilt.edu/?project=ROSMOD%2BSamples&branch=master&node=%2Fv&visualizer=RootViz&layout=NewDefaultLayout).
+
+A extensive documentation is also accessible on [github](http://rosmod.github.io/webgme-rosmod/docs/users.html).
+
+ROSMOD is a Robot Operating System Model-driven development tool suite, providing graphical tools for rapid prototyping and deploying large-scale applications.
+
+It follows a component-based approach structure, and is said to be a refinement of the ROS component model.
+
+The ROSMODE tool-suite is intended to reduce the amount of time and effort they spend installing, configuring, and maintaining applications.
+
+Nevertheless, it requires agreeing with the proposed model of component, that is slightly different from the traditional ROS one, which may be acknowledged only by advanced Developers.
+
+_**Bride**_
+
+[Bride](http://wiki.ros.org/bride) is on the main outcomes of the European project Brics.
+
+Bride stands for BRICS Integrated Development Environment.
+
+It allows for a definition of component interface and behavior using an abstract representation. enabling automatic model validation and code generation, where appropriate. It also provides a clear separation in between framework-specific (like the component interface) and the framework-independent code (like the core component computations).
+
+Bride is integrated as an Eclipse plugin, in which the Developer can graphically design nodes together with its communication interface with the ROS world.
+
+The development is following the spirit of Component-Based Software Engineering, targeting quality, technical and functional reusability (see that [paper](http://www.best-of-robotics.org/pages/publications/UniBergamo_Component_Robotics_RA-Magazine_2009.pdf)).
+
+Considering that a software component is defined to be a unit of composition with contractually specified interfaces and explicit context dependencies only, brics stresses in its implementation the clear distinction in between the interface and the implementation of the component functionalities.
+
+From the definition of the interface, trough the Eclipse plugin, or directly through a xml description, brics prepares the ROS node structure, defines the communication tools, and prepares in a distinct file the skeleton of the code to be filled by the user.
+
+The concepts followed by brics seem to be of major importance for developing stable components with clear interfaces.
+Unfortunately, the developments have been stopped two years ago and are sticked to ROS indigo.
+
+Furthermore, the life pattern implemented in the generated ROS core module can not be adapted to Developer needs, and would required good skills in java and eclipse plugin for being adapted to specific needs.
+
+_**Rosnode 2.0 node life-cycle**_
+
+In addition to the relevance of defining well the interface a node provides to the user, it is also crucial making clear what is the life-cycle of the node once launched.
+
+Even though part of it can be deduced from the interface definition, critical aspects may not be easily inferred from such description, such as when the node computation starts, can we and should we stop and resume the node activity during the application, …
+
+A particular care is placed on such aspect in the design of ROS2, essentially in the concept of [managed nodes](http://design.ros2.org/articles/node_lifecycle.html).
+The inheritance mechanism is used to associate to nodes a common life-cycle, with pre-defined interaction mechanisms. This way the monitoring of the deployment, initialization, pausing and resuming of any node launched is made easier since all managed nodes follow the same policy.
+
+Managed nodes execute following a known state machine which state indicates whether the node is unconfigured (just instanciated), inactive (configured but not running), active (performing its computation) or finalized (before destruction).
+
+The implementation of a managed nodes requires implementing the different transitions from one state to another.
+
+The advantage of such model is that, if well-spread in all nodes, the monitoring of an application is eased since all nodes follow a common methodology and can thus be triggered or consulted on their status in a common way.
+
+The use of a component is thus less dependent on the implementation proposed by the Developer.
+
+This definitely ease the collaboration in the community as well as the reuse of components in other applications.
+
+Even though ROS2.0 is not yet deployed, such mechanism and philosophy is a good practice to consider when developing nodes, even in the current ROS structure.
+
 #### Related Patterns
+* Submit a patch
+* Regression testing (unit tests)
+* Code review
+* Accepting a pull request
+* Standards and patterns
 
 ## Application Development
 ### Pattern 3: Continuous integration with the public infrastructure
