@@ -37,7 +37,7 @@ _**Maintaining efficiency**_
 Blocking contributions from being merged into the main code base for too long can be detrimental, both to the engagement of the submitter, as well as to the chances that they will get merged (as a patch may have been written for an older version of the software, increasing the effort required to make it compatible with the current state). As such, Pull Request reviews and iterations should be efficient, with minor (cosmetic) issues not holding up the process.
 
 #### Solution
-Community members as Submitters submit a change through a Maintainer. The Maintainer should guard the quality of both the contributions and the result of merging the contribution with mainline by making use of their understanding of ROS and of the automated quality assurance tooling.
+Community members as _Submitters_ submit a change through a Maintainer. The Maintainer should guard the quality of both the contributions and the result of merging the contribution with mainline by making use of their understanding of ROS and of the automated quality assurance tooling.
 #### Stakeholders
 A **Maintainer** is either part of the core ROS development team, or a well reputed community member who has taken on the responsibility for a (number of) core packages. The Maintainer ‘owns’ the respective repository on a ROS Github organisation. His interest and task is to make sure that changes to this repository adhere to the coding standards, that the development guidelines and policies are followed and that introduction of changes by the community does not diverge from the overall design of the software components affected (see also [Maintenance Guide](http://wiki.ros.org/MaintenanceGuide) on the ROS wiki).
 
@@ -75,7 +75,7 @@ There must be at least one maintainer per core package (but preferably more).
 Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
 It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
 #### Known Uses
-Many open-source systems have assigned the responsibility for the quality of core modules to so called maintainers, among them the Linux project: https://github.com/torvalds/linux/blob/master/MAINTAINERS
+Many open-source systems have assigned the responsibility for the quality of core modules to so called maintainers, among them the Linux project: [https://github.com/torvalds/linux/blob/master/MAINTAINERS](https://github.com/torvalds/linux/blob/master/MAINTAINERS)
 #### Related patterns
 * Continuous Integration Testing
 * Test automation.
@@ -108,34 +108,34 @@ The following is an example workflow for reviewing pull requests.
 
 General, high-level checks
 
-1. Make sure the PR does not introduce regressions:
-   1. If a CI infrastructure is available: check its status
-   1. Otherwise run tests manually / locally: this could include human-in-the-loop tests if necessary (fi when testing requires significant human-machine interfacing)
-1. Check proposed changes for adherence to conventions:
-   1. ROS REPs: as far as applicable
-   1. code style: automated if available (clang-format) or manually
-   1. naming conventions (packages, nodes, topics, services, actions, coordinate frames, etc)
-   1. Repository/package specific conventions
-   1. Design/architectural: would acceptance of the changes cause the overall design of the package to significantly diverge from its current structure (both static and dynamic)?
+  1. Make sure the PR does not introduce regressions:
+     1. If a CI infrastructure is available: check its status
+     1. Otherwise run tests manually / locally: this could include human-in-the-loop tests if necessary (fi when testing requires significant human-machine interfacing)
+  1. Check proposed changes for adherence to conventions:
+     1. ROS REPs: as far as applicable
+     1. code style: automated if available (clang-format) or manually
+     1. naming conventions (packages, nodes, topics, services, actions, coordinate frames, etc)
+     1. Repository/package specific conventions
+     1. Design/architectural: would acceptance of the changes cause the overall design of the package to significantly diverge from its current structure (both static and dynamic)?
 
 If the pull request is a bug fix:
-1.	Check that either a new test is included or that an existing one is extended or adapted that proves that the issue is fixed
+  1.	Check that either a new test is included or that an existing one is extended or adapted that proves that the issue is fixed
 
 If the pull request introduces new functionality:
-1.	Check that a test is included that covers the new functionality
+  1.	Check that a test is included that covers the new functionality
 
 Detailed checks
 If the pull request is a bug fix:
-1.	Do the proposed changes actually fix the reported issue?
-1.	Is the fix generic enough, or does it only work for the submitter?
-1.	Does the fix not conflict with other uses of the code (ie: those that might not be immediately apparent to the submitter)?
-1.	Is there a less invasive, more efficient, easier or more maintainable solution that would be an equivalent fix?
+  1.	Do the proposed changes actually fix the reported issue?
+  1.	Is the fix generic enough, or does it only work for the submitter?
+  1.	Does the fix not conflict with other uses of the code (ie: those that might not be immediately apparent to the submitter)?
+  1.	Is there a less invasive, more efficient, easier or more maintainable solution that would be an equivalent fix?
 
 If the pull request introduces new functionality:
-1.	 Is the proposed functionality actually a new feature?
-1.	 Does the proposed functionality do what is claimed?
-1.	 Is the new feature generic enough, or does it only address a use-case of the contributor?
-1.	 Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
+  1.	 Is the proposed functionality actually a new feature?
+  1.	 Does the proposed functionality do what is claimed?
+  1.	 Is the new feature generic enough, or does it only address a use-case of the contributor?
+  1.	 Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
 
 Accepting the contribution
 Pull requests should only be accepted and merged if the above checks have all been completed and the review has been performed by at least two maintainers.
@@ -457,7 +457,7 @@ _**Maintaining efficiency**_
 Blocking contributions from being merged into the main code base for too long can be detrimental, both to the engagement of the submitter, as well as to the chances that they will get merged (as a patch may have been written for an older version of the software, increasing the effort required to make it compatible with the current state). As such, Pull Request reviews and iterations should be efficient, with minor (cosmetic) issues not holding up the process.
 
 #### Solution
-Community members as Submitters submit a change through a Maintainer. The Maintainer should guard the quality of both the contributions and the result of merging the contribution with mainline by making use of their understanding of ROS and of the automated quality assurance tooling.
+Community members as _Submitters_ submit a change through a Maintainer. The Maintainer should guard the quality of both the contributions and the result of merging the contribution with mainline by making use of their understanding of ROS and of the automated quality assurance tooling.
 #### Stakeholders
 A **Maintainer** is either part of the core ROS development team, or a well reputed community member who has taken on the responsibility for a (number of) core packages. The Maintainer ‘owns’ the respective repository on a ROS Github organisation. His interest and task is to make sure that changes to this repository adhere to the coding standards, that the development guidelines and policies are followed and that introduction of changes by the community does not diverge from the overall design of the software components affected (see also [Maintenance Guide](http://wiki.ros.org/MaintenanceGuide) on the ROS wiki).
 
@@ -495,7 +495,7 @@ There must be at least one maintainer per core package (but preferably more).
 Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
 It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
 #### Known Uses
-Many open-source systems have assigned the responsibility for the quality of core modules to so called maintainers, among them the Linux project: https://github.com/torvalds/linux/blob/master/MAINTAINERS
+Many open-source systems have assigned the responsibility for the quality of core modules to so called maintainers, among them the Linux project: [https://github.com/torvalds/linux/blob/master/MAINTAINERS](https://github.com/torvalds/linux/blob/master/MAINTAINERS)
 #### Related patterns
 * Continuous Integration Testing
 * Test automation.
@@ -528,34 +528,34 @@ The following is an example workflow for reviewing pull requests.
 
 General, high-level checks
 
-1. Make sure the PR does not introduce regressions:
-   1. If a CI infrastructure is available: check its status
-   1. Otherwise run tests manually / locally: this could include human-in-the-loop tests if necessary (fi when testing requires significant human-machine interfacing)
-1. Check proposed changes for adherence to conventions:
-   1. ROS REPs: as far as applicable
-   1. code style: automated if available (clang-format) or manually
-   1. naming conventions (packages, nodes, topics, services, actions, coordinate frames, etc)
-   1. Repository/package specific conventions
-   1. Design/architectural: would acceptance of the changes cause the overall design of the package to significantly diverge from its current structure (both static and dynamic)?
+ 1. Make sure the PR does not introduce regressions:
+     1. If a CI infrastructure is available: check its status
+     1. Otherwise run tests manually / locally: this could include human-in-the-loop tests if necessary (fi when testing requires significant human-machine interfacing)
+  1. Check proposed changes for adherence to conventions:
+     1. ROS REPs: as far as applicable
+     1. code style: automated if available (clang-format) or manually
+     1. naming conventions (packages, nodes, topics, services, actions, coordinate frames, etc)
+     1. Repository/package specific conventions
+     1. Design/architectural: would acceptance of the changes cause the overall design of the package to significantly diverge from its current structure (both static and dynamic)?
 
 If the pull request is a bug fix:
-1.	Check that either a new test is included or that an existing one is extended or adapted that proves that the issue is fixed
+  1.	Check that either a new test is included or that an existing one is extended or adapted that proves that the issue is fixed
 
 If the pull request introduces new functionality:
-1.	Check that a test is included that covers the new functionality
+  1.	Check that a test is included that covers the new functionality
 
 Detailed checks
 If the pull request is a bug fix:
-1.	Do the proposed changes actually fix the reported issue?
-1.	Is the fix generic enough, or does it only work for the submitter?
-1.	Does the fix not conflict with other uses of the code (ie: those that might not be immediately apparent to the submitter)?
-1.	Is there a less invasive, more efficient, easier or more maintainable solution that would be an equivalent fix?
+  1.	Do the proposed changes actually fix the reported issue?
+  1.	Is the fix generic enough, or does it only work for the submitter?
+  1.	Does the fix not conflict with other uses of the code (ie: those that might not be immediately apparent to the submitter)?
+  1.	Is there a less invasive, more efficient, easier or more maintainable solution that would be an equivalent fix?
 
 If the pull request introduces new functionality:
-1.	 Is the proposed functionality actually a new feature?
-1.	 Does the proposed functionality do what is claimed?
-1.	 Is the new feature generic enough, or does it only address a use-case of the contributor?
-1.	 Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
+  1.	 Is the proposed functionality actually a new feature?
+  1.	 Does the proposed functionality do what is claimed?
+  1.	 Is the new feature generic enough, or does it only address a use-case of the contributor?
+  1.	 Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
 
 Accepting the contribution
 Pull requests should only be accepted and merged if the above checks have all been completed and the review has been performed by at least two maintainers.
