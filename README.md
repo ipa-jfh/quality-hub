@@ -148,22 +148,16 @@ Pull requests should only be accepted and merged if the above checks have all be
 [Moveit Pull Request](http://moveit.ros.org/documentation/contributing/pullrequests)
 
 #### Consequences
-Policies and standards for reviewing pull requests must be made available to maintainers.
-
-Maintainers must be aware of the policies regarding pull request review.
-
-All pull requests will have been reviewed by at least two maintainers.
-
-The repository must have been setup to run CI on pull requests.
-
-Contributions must be accompanied by sufficient rationale as to why they are to be included (and as to why the change introduced).
+* Policies and standards for reviewing pull requests must be made available to maintainers.
+* Maintainers must be aware of the policies regarding pull request review.
+* All pull requests will have been reviewed by at least two maintainers.
+* The repository must have been setup to run CI on pull requests.
+* Contributions must be accompanied by sufficient rationale as to why they are to be included (and as to why the change introduced).
 
 #### Known Uses
-All pull requests against ROS repositories maintained by the OSRF use a similar - albeit implicit - review policy.
-
-The ROS-Industrial community also has a similar policy for reviewing contributions.
-
-Another example is the maintainers policy of the MoveIt community.
+* All pull requests against ROS repositories maintained by the OSRF use a similar - albeit implicit - review policy.
+* The ROS-Industrial community also has a similar policy for reviewing contributions.
+* Another example is the maintainers policy of the MoveIt community.
 
 #### Related patterns
 * Standards and Patterns (Driver Developer)
@@ -307,11 +301,11 @@ A **Maintainer** is the programmer taking care of the package.
 A **Code Reviewer** is another ROS developer who together with the maintainer will be reviewing the code (very often, for simpler packages, or for less formalized projects this is the same person as the maintainer).
 
 #### Tools involved
-For testing Python code at library level (at the Python API level) ROS projects should use Python’s unittest framework. See http://pythontesting.net/framework/unittest/unittest-introduction/. For testing C++ code at the library level (at the C++ API level) Google test framework gtest should be used. See https://github.com/google/googletest. For testing at the ROS node level, involving ROS as a communication middleware, rostest  is used together with unittest or gtest. See http://wiki.ros.org/rostest. This applies both to single node tests, and tests that require integrating several nodes (technically known as integration tests, not unit tests).
+For testing Python code at library level (at the Python API level) ROS projects should use Python’s unittest framework. See [http://pythontesting.net/framework/unittest/unittest-introduction/](http://pythontesting.net/framework/unittest/unittest-introduction/). For testing C++ code at the library level (at the C++ API level) Google test framework gtest should be used. See [https://github.com/google/googletest](https://github.com/google/googletest). For testing at the ROS node level, involving ROS as a communication middleware, rostest  is used together with unittest or gtest. See [http://wiki.ros.org/rostest](http://wiki.ros.org/rostest). This applies both to single node tests, and tests that require integrating several nodes (technically known as integration tests, not unit tests).
 
-It is key that the tests are not only automatic, but are integrated in the project scripts, so that they are run by the build and test infrastructure, whenever the project is being tested. To run the tests, you will need catkin/roslaunch integration (see the pattern Integrate tests in Catkin and http://wiki.ros.org/rostest/Writing ).  This may involve introducing a build dependency on rostest in package.xml and including a launcher for the test in the test file.
+It is key that the tests are not only automatic, but are integrated in the project scripts, so that they are run by the build and test infrastructure, whenever the project is being tested. To run the tests, you will need catkin/roslaunch integration (see the pattern Integrate tests in Catkin and [http://wiki.ros.org/rostest/Writing](http://wiki.ros.org/rostest/Writing) ).  This may involve introducing a build dependency on rostest in package.xml and including a launcher for the test in the test file.
 
-Test nodes should be introduced using the <test> tag into launch files.  The rostest tool interprets these tags to start the nodes responsible for running node-level tests. (See http://wiki.ros.org/roslaunch/XML/test )
+Test nodes should be introduced using the <test> tag into launch files.  The rostest tool interprets these tags to start the nodes responsible for running node-level tests. (See [http://wiki.ros.org/roslaunch/XML/test](http://wiki.ros.org/roslaunch/XML/test) )
 Regarding the submission please refer to the pattern Submit a patch where git infrastructure for submission is discussed.
 
 #### Example
@@ -325,27 +319,24 @@ Example resolved:
 * Submitted Pull Request against indigo-devel (second-to-last LTS). Importantly the pull request included both the test and the submission, so the both the fixing patch and the test are used to explain the problem (in the example this is a race due to wrong locking).
 * maintainer #1 identifies small issues with submitted patch, proposes fixes. In particular he requests that the regression test is incorporated into the patch.
 * Maintainer #2 reviews the new PR by maintainer #1 and waits for the Continuous Integration server to complete the testrun.
-* Eventually (on another branch, see https://github.com/ros/ros_comm/pull/1058 ) the fix for the problem is merged together with the test.  The test remains active for future modifications of locks in this package.
+* Eventually (on another branch, see [https://github.com/ros/ros_comm/pull/1058](https://github.com/ros/ros_comm/pull/1058) ) the fix for the problem is merged together with the test.  The test remains active for future modifications of locks in this package.
 
 Sometimes regression tests will involve large amounts of data (for instance ROS bags storing data from the failing execution). It is possible to make tests conditional, so that they are not called if this data is not available.  This allows the other developers on your package to avoid running expensive tests, if they don’t wish it.
 
 #### Links
-http://wiki.ros.org/UnitTesting 
-http://wiki.ros.org/unittest 
-http://wiki.ros.org/gtest 
+* [http://wiki.ros.org/UnitTesting](http://wiki.ros.org/UnitTesting)
+* [http://wiki.ros.org/unittest](http://wiki.ros.org/unittest)
+* [http://wiki.ros.org/gtest](http://wiki.ros.org/gtest)
 
 #### Consequences
-There must be at least one maintainer per core package (but preferably more). 
-
-Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
-
-It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
-
-Regression testing benefits community developers as well (not only maintainers, and not only core package developers).
+* There must be at least one maintainer per core package (but preferably more). 
+* Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
+* It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
+* Regression testing benefits community developers as well (not only maintainers, and not only core package developers).
 
 #### Known Uses
-Many open-source systems are using regression testing, and regression testing has been popularized a long time ago.  A good example of an open-source project with regression tests is WebKit: https://webkit.org/regression-testing/, a web-browser engine used by many applications, including by Apple’s Safari browser. Another project is KDE, a popular desktop manager for Unix-like systems:
-https://community.kde.org/Guidelines_and_HOWTOs/UnitTests. Both projects use CMake as their build manager, which is a similarity they share with ROS.
+Many open-source systems are using regression testing, and regression testing has been popularized a long time ago.  A good example of an open-source project with regression tests is WebKit: [https://webkit.org/regression-testing/](https://webkit.org/regression-testing/), a web-browser engine used by many applications, including by Apple’s Safari browser. Another project is KDE, a popular desktop manager for Unix-like systems:
+[https://community.kde.org/Guidelines_and_HOWTOs/UnitTests](https://community.kde.org/Guidelines_and_HOWTOs/UnitTests). Both projects use CMake as their build manager, which is a similarity they share with ROS.
 
 #### Related patterns
 * Continuous Integration Testing
@@ -412,11 +403,9 @@ Some further information can be found in 1, Running unit tests.
 In the mentioned scenario of the library for path planning, it is useful to have a test that verifies that the mechanics of the kinematic functions remain flawless. This can be achieved by defining a test that inputs an arbitrary (but reachable) cartesian goal position into the inverse kinematic to calculate the required robot’s joint states and subsequently, input this values to the forward kinematic to again get a pose in cartesian space. Finally, one can compare the original and the calculated pose to see if the functions are working correctly. The test will fail, if the difference is higher than a defined threshold, which is accounting numerical errors. If this test is include in catkin and the Continuous Integration system, it can be executed every time a developer pushes his patches to the library.
 
 #### Links
-[Configuring and running unit tests](http://docs.ros.org/kinetic/api/catkin/html/howto/format2/index.html)
-
-[Conceptual overview of catkin](http://wiki.ros.org/catkin/conceptual_overview)
-
-[Rostest](http://wiki.ros.org/rostest)
+* [Configuring and running unit tests](http://docs.ros.org/kinetic/api/catkin/html/howto/format2/index.html)
+* [Conceptual overview of catkin](http://wiki.ros.org/catkin/conceptual_overview)
+* [Rostest](http://wiki.ros.org/rostest)
 
 #### Consequences
 There is an initial effort to develop a suitable set of test cases for the application and as best practice a Continuous Integration is required to run the test on a regular basis.
@@ -727,11 +716,11 @@ A **Maintainer** is the programmer taking care of the package.
 A **Code Reviewer** is another ROS developer who together with the maintainer will be reviewing the code (very often, for simpler packages, or for less formalized projects this is the same person as the maintainer).
 
 #### Tools involved
-For testing Python code at library level (at the Python API level) ROS projects should use Python’s unittest framework. See http://pythontesting.net/framework/unittest/unittest-introduction/. For testing C++ code at the library level (at the C++ API level) Google test framework gtest should be used. See https://github.com/google/googletest. For testing at the ROS node level, involving ROS as a communication middleware, rostest  is used together with unittest or gtest. See http://wiki.ros.org/rostest. This applies both to single node tests, and tests that require integrating several nodes (technically known as integration tests, not unit tests).
+For testing Python code at library level (at the Python API level) ROS projects should use Python’s unittest framework. See [http://pythontesting.net/framework/unittest/unittest-introduction/](http://pythontesting.net/framework/unittest/unittest-introduction/). For testing C++ code at the library level (at the C++ API level) Google test framework gtest should be used. See [https://github.com/google/googletest](https://github.com/google/googletest). For testing at the ROS node level, involving ROS as a communication middleware, rostest  is used together with unittest or gtest. See [http://wiki.ros.org/rostest](http://wiki.ros.org/rostest). This applies both to single node tests, and tests that require integrating several nodes (technically known as integration tests, not unit tests).
 
-It is key that the tests are not only automatic, but are integrated in the project scripts, so that they are run by the build and test infrastructure, whenever the project is being tested. To run the tests, you will need catkin/roslaunch integration (see the pattern Integrate tests in Catkin and http://wiki.ros.org/rostest/Writing ).  This may involve introducing a build dependency on rostest in package.xml and including a launcher for the test in the test file.
+It is key that the tests are not only automatic, but are integrated in the project scripts, so that they are run by the build and test infrastructure, whenever the project is being tested. To run the tests, you will need catkin/roslaunch integration (see the pattern Integrate tests in Catkin and [http://wiki.ros.org/rostest/Writing](http://wiki.ros.org/rostest/Writing) ).  This may involve introducing a build dependency on rostest in package.xml and including a launcher for the test in the test file.
 
-Test nodes should be introduced using the <test> tag into launch files.  The rostest tool interprets these tags to start the nodes responsible for running node-level tests. (See http://wiki.ros.org/roslaunch/XML/test )
+Test nodes should be introduced using the <test> tag into launch files.  The rostest tool interprets these tags to start the nodes responsible for running node-level tests. (See [http://wiki.ros.org/roslaunch/XML/test](http://wiki.ros.org/roslaunch/XML/test) )
 Regarding the submission please refer to the pattern Submit a patch where git infrastructure for submission is discussed.
 
 #### Example
@@ -745,27 +734,24 @@ Example resolved:
 * Submitted Pull Request against indigo-devel (second-to-last LTS). Importantly the pull request included both the test and the submission, so the both the fixing patch and the test are used to explain the problem (in the example this is a race due to wrong locking).
 * maintainer #1 identifies small issues with submitted patch, proposes fixes. In particular he requests that the regression test is incorporated into the patch.
 * Maintainer #2 reviews the new PR by maintainer #1 and waits for the Continuous Integration server to complete the testrun.
-* Eventually (on another branch, see https://github.com/ros/ros_comm/pull/1058 ) the fix for the problem is merged together with the test.  The test remains active for future modifications of locks in this package.
+* Eventually (on another branch, see [https://github.com/ros/ros_comm/pull/1058](https://github.com/ros/ros_comm/pull/1058) ) the fix for the problem is merged together with the test.  The test remains active for future modifications of locks in this package.
 
 Sometimes regression tests will involve large amounts of data (for instance ROS bags storing data from the failing execution). It is possible to make tests conditional, so that they are not called if this data is not available.  This allows the other developers on your package to avoid running expensive tests, if they don’t wish it.
 
 #### Links
-http://wiki.ros.org/UnitTesting 
-http://wiki.ros.org/unittest 
-http://wiki.ros.org/gtest 
+* [http://wiki.ros.org/UnitTesting](http://wiki.ros.org/UnitTesting)
+* [http://wiki.ros.org/unittest](http://wiki.ros.org/unittest)
+* [http://wiki.ros.org/gtest](http://wiki.ros.org/gtest)
 
 #### Consequences
-There must be at least one maintainer per core package (but preferably more). 
-
-Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
-
-It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
-
-Regression testing benefits community developers as well (not only maintainers, and not only core package developers).
+* There must be at least one maintainer per core package (but preferably more). 
+* Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
+* It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
+* Regression testing benefits community developers as well (not only maintainers, and not only core package developers).
 
 #### Known Uses
-Many open-source systems are using regression testing, and regression testing has been popularized a long time ago.  A good example of an open-source project with regression tests is WebKit: https://webkit.org/regression-testing/, a web-browser engine used by many applications, including by Apple’s Safari browser. Another project is KDE, a popular desktop manager for Unix-like systems:
-https://community.kde.org/Guidelines_and_HOWTOs/UnitTests. Both projects use CMake as their build manager, which is a similarity they share with ROS.
+Many open-source systems are using regression testing, and regression testing has been popularized a long time ago.  A good example of an open-source project with regression tests is WebKit: [https://webkit.org/regression-testing/](https://webkit.org/regression-testing/), a web-browser engine used by many applications, including by Apple’s Safari browser. Another project is KDE, a popular desktop manager for Unix-like systems:
+[https://community.kde.org/Guidelines_and_HOWTOs/UnitTests](https://community.kde.org/Guidelines_and_HOWTOs/UnitTests). Both projects use CMake as their build manager, which is a similarity they share with ROS.
 
 #### Related patterns
 * Continuous Integration Testing
@@ -1301,6 +1287,7 @@ Everyone, not just the developer or maintainer, has access to build and test res
 * Regression Testing
 * Submitting patches to core packages through maintainers
 
+
 ### Pattern 4: Regression test (Unit test)
 #### Name
 Regression Testing
@@ -1350,11 +1337,11 @@ A **Maintainer** is the programmer taking care of the package.
 A **Code Reviewer** is another ROS developer who together with the maintainer will be reviewing the code (very often, for simpler packages, or for less formalized projects this is the same person as the maintainer).
 
 #### Tools involved
-For testing Python code at library level (at the Python API level) ROS projects should use Python’s unittest framework. See http://pythontesting.net/framework/unittest/unittest-introduction/. For testing C++ code at the library level (at the C++ API level) Google test framework gtest should be used. See https://github.com/google/googletest. For testing at the ROS node level, involving ROS as a communication middleware, rostest  is used together with unittest or gtest. See http://wiki.ros.org/rostest. This applies both to single node tests, and tests that require integrating several nodes (technically known as integration tests, not unit tests).
+For testing Python code at library level (at the Python API level) ROS projects should use Python’s unittest framework. See [http://pythontesting.net/framework/unittest/unittest-introduction/](http://pythontesting.net/framework/unittest/unittest-introduction/). For testing C++ code at the library level (at the C++ API level) Google test framework gtest should be used. See [https://github.com/google/googletest](https://github.com/google/googletest). For testing at the ROS node level, involving ROS as a communication middleware, rostest  is used together with unittest or gtest. See [http://wiki.ros.org/rostest](http://wiki.ros.org/rostest). This applies both to single node tests, and tests that require integrating several nodes (technically known as integration tests, not unit tests).
 
-It is key that the tests are not only automatic, but are integrated in the project scripts, so that they are run by the build and test infrastructure, whenever the project is being tested. To run the tests, you will need catkin/roslaunch integration (see the pattern Integrate tests in Catkin and http://wiki.ros.org/rostest/Writing ).  This may involve introducing a build dependency on rostest in package.xml and including a launcher for the test in the test file.
+It is key that the tests are not only automatic, but are integrated in the project scripts, so that they are run by the build and test infrastructure, whenever the project is being tested. To run the tests, you will need catkin/roslaunch integration (see the pattern Integrate tests in Catkin and [http://wiki.ros.org/rostest/Writing](http://wiki.ros.org/rostest/Writing) ).  This may involve introducing a build dependency on rostest in package.xml and including a launcher for the test in the test file.
 
-Test nodes should be introduced using the <test> tag into launch files.  The rostest tool interprets these tags to start the nodes responsible for running node-level tests. (See http://wiki.ros.org/roslaunch/XML/test )
+Test nodes should be introduced using the <test> tag into launch files.  The rostest tool interprets these tags to start the nodes responsible for running node-level tests. (See [http://wiki.ros.org/roslaunch/XML/test](http://wiki.ros.org/roslaunch/XML/test) )
 Regarding the submission please refer to the pattern Submit a patch where git infrastructure for submission is discussed.
 
 #### Example
@@ -1368,27 +1355,24 @@ Example resolved:
 * Submitted Pull Request against indigo-devel (second-to-last LTS). Importantly the pull request included both the test and the submission, so the both the fixing patch and the test are used to explain the problem (in the example this is a race due to wrong locking).
 * maintainer #1 identifies small issues with submitted patch, proposes fixes. In particular he requests that the regression test is incorporated into the patch.
 * Maintainer #2 reviews the new PR by maintainer #1 and waits for the Continuous Integration server to complete the testrun.
-* Eventually (on another branch, see https://github.com/ros/ros_comm/pull/1058 ) the fix for the problem is merged together with the test.  The test remains active for future modifications of locks in this package.
+* Eventually (on another branch, see [https://github.com/ros/ros_comm/pull/1058](https://github.com/ros/ros_comm/pull/1058) ) the fix for the problem is merged together with the test.  The test remains active for future modifications of locks in this package.
 
 Sometimes regression tests will involve large amounts of data (for instance ROS bags storing data from the failing execution). It is possible to make tests conditional, so that they are not called if this data is not available.  This allows the other developers on your package to avoid running expensive tests, if they don’t wish it.
 
 #### Links
-http://wiki.ros.org/UnitTesting 
-http://wiki.ros.org/unittest 
-http://wiki.ros.org/gtest 
+* [http://wiki.ros.org/UnitTesting](http://wiki.ros.org/UnitTesting)
+* [http://wiki.ros.org/unittest](http://wiki.ros.org/unittest)
+* [http://wiki.ros.org/gtest](http://wiki.ros.org/gtest)
 
 #### Consequences
-There must be at least one maintainer per core package (but preferably more). 
-
-Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
-
-It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
-
-Regression testing benefits community developers as well (not only maintainers, and not only core package developers).
+* There must be at least one maintainer per core package (but preferably more). 
+* Maintainers need to have access to the necessary tools, both locally and remote (CI output of ROS Buildfarm).
+* It becomes possible to add more Q&A tooling to the buildfarm to more easily enforce Q&A process / best practices (make it less subjective).
+* Regression testing benefits community developers as well (not only maintainers, and not only core package developers).
 
 #### Known Uses
-Many open-source systems are using regression testing, and regression testing has been popularized a long time ago.  A good example of an open-source project with regression tests is WebKit: https://webkit.org/regression-testing/, a web-browser engine used by many applications, including by Apple’s Safari browser. Another project is KDE, a popular desktop manager for Unix-like systems:
-https://community.kde.org/Guidelines_and_HOWTOs/UnitTests. Both projects use CMake as their build manager, which is a similarity they share with ROS.
+Many open-source systems are using regression testing, and regression testing has been popularized a long time ago.  A good example of an open-source project with regression tests is WebKit: [https://webkit.org/regression-testing/](https://webkit.org/regression-testing/), a web-browser engine used by many applications, including by Apple’s Safari browser. Another project is KDE, a popular desktop manager for Unix-like systems:
+[https://community.kde.org/Guidelines_and_HOWTOs/UnitTests](https://community.kde.org/Guidelines_and_HOWTOs/UnitTests). Both projects use CMake as their build manager, which is a similarity they share with ROS.
 
 #### Related patterns
 * Continuous Integration Testing
@@ -1802,15 +1786,15 @@ If you have access to a simulator of the targeted robot, you can use it to test 
 
 Then the process for running the MIL tests could be:
 1. Set up the different test cases.
-   1. The focus of MIL tests is the (mal-)functioning of the software rather than the hardware. Test cases should contain both success scenarios and anticipatable error scenarios. The reaction of the software to changes in the environment the robot is operating in might be a subject of tests as well. 
+    1. The focus of MIL tests is the (mal-)functioning of the software rather than the hardware. Test cases should contain both success scenarios and anticipatable error scenarios. The reaction of the software to changes in the environment the robot is operating in might be a subject of tests as well. 
 Define suitable success criteria and how to measure them. What logs would you need in a malfunction situation to analyse the error? 
    1. Prepare (program) the simulation setup including what data to log. Besides the model of the robot the test scenarios can contain specific arrangements of the environment.
 1. Run the tests. 
-   1. Deploy the software to the simulated robot and run the test scenarios.
+    1. Deploy the software to the simulated robot and run the test scenarios.
 1. Evaluate the results. 
-   1. If the simulator has a visual interface, a first observation would be whether it shows the expected behavior. However, logs and the measurements for the success criteria should be analysed as well. 
+    1. If the simulator has a visual interface, a first observation would be whether it shows the expected behavior. However, logs and the measurements for the success criteria should be analysed as well. 
 1. Report/fix any detected issues.
-   1. The error report needs to contain the information about the setup of the test, the measurements of the success criteria, and the log files.
+    1. The error report needs to contain the information about the setup of the test, the measurements of the success criteria, and the log files.
 1. Rerun the tests if needed.
 
 #### Consequences
