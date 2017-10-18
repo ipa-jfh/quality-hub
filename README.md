@@ -132,10 +132,10 @@ If the pull request is a bug fix:
   1.	Is there a less invasive, more efficient, easier or more maintainable solution that would be an equivalent fix?
 
 If the pull request introduces new functionality:
-  1.	 Is the proposed functionality actually a new feature?
-  1.	 Does the proposed functionality do what is claimed?
-  1.	 Is the new feature generic enough, or does it only address a use-case of the contributor?
-  1.	 Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
+  1. Is the proposed functionality actually a new feature?
+  1. Does the proposed functionality do what is claimed?
+  1. Is the new feature generic enough, or does it only address a use-case of the contributor?
+  1. Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
 
 Accepting the contribution
 Pull requests should only be accepted and merged if the above checks have all been completed and the review has been performed by at least two maintainers.
@@ -552,10 +552,10 @@ If the pull request is a bug fix:
   1.	Is there a less invasive, more efficient, easier or more maintainable solution that would be an equivalent fix?
 
 If the pull request introduces new functionality:
-  1.	 Is the proposed functionality actually a new feature?
-  1.	 Does the proposed functionality do what is claimed?
-  1.	 Is the new feature generic enough, or does it only address a use-case of the contributor?
-  1.	 Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
+  1. Is the proposed functionality actually a new feature?
+  1. Does the proposed functionality do what is claimed?
+  1. Is the new feature generic enough, or does it only address a use-case of the contributor?
+  1. Is there a less invasive, more efficient, easier or more maintainable implementation that would result in the same enhancement?
 
 Accepting the contribution
 Pull requests should only be accepted and merged if the above checks have all been completed and the review has been performed by at least two maintainers.
